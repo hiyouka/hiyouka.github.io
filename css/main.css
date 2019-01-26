@@ -450,7 +450,7 @@ kbd {
 }
 table {
   margin: 20px 0;
-  width: 100%;
+  width: 70%;
   border-collapse: collapse;
   border-spacing: 0;
   border: 1px solid #ddd;
@@ -1903,7 +1903,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #b0c6e3;
+  background: #13e9ff;
 }
 .links-of-blogroll {
   font-size: 13px;
