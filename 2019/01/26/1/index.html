@@ -149,7 +149,7 @@
 <meta property="og:description" content="前言&amp;#8195;&amp;#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的@Autowired注解的设计,希望看到的小伙伴能有所收获。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://github.com/hiyouka/blog_article/blob/master/images/houses.jpg?raw=true">
-<meta property="og:updated_time" content="2019-01-26T15:16:57.729Z">
+<meta property="og:updated_time" content="2019-01-26T15:26:40.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现spring的依赖注入">
 <meta name="twitter:description" content="前言&amp;#8195;&amp;#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的@Autowired注解的设计,希望看到的小伙伴能有所收获。">
@@ -378,214 +378,152 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hiyouka.top/2019/01/26/1/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hiyouka">
-      <meta itemprop="description" content="hiyouka's blog">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hiyouka">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
+<h1 class="post-title" itemprop="name headline">实现spring的依赖注入
+
+</h1>
+
+<div class="post-meta">
+  
+  
+
+
+  
+  
+  <ul class="breadcrumb">
+    
+      
+      
+        
+          
+            
+          
+          <li><a href="/2019/">2019</a></li>
+        
+      
+    
+      
+      
+        
+          
+            
+          
+          <li><a href="/2019/01/">01</a></li>
+        
+      
+    
+      
+      
+        
+          
+            
+          
+          <li><a href="/2019/01/26/">26</a></li>
+        
+      
+    
+      
+      
+        
+          <li>1</li>
+        
+      
+    
+      
+      
+        
+          
+            
+          
+          <li><a href="/2019/01/26//"></a></li>
+        
+      
+    
+  </ul>
+
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
         
         
-          <h1 class="post-title" itemprop="name headline">实现spring的依赖注入
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>
 
-              
-            
-          </h1>
         
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-
-              
-                
-              
-
-
-             <time itemprop="dateCreated" datetime="2019-01-26T09:13:00+08:00" content="2019-01-26">
-		2019-01-26
-              </time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/spring实现/" itemprop="url" rel="index"><span itemprop="name">spring实现</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <a href="/2019/01/26/1/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text"></span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/26/1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-            <span id="/2019/01/26/1/" class="leancloud_visitors" data-flag-title="实现spring的依赖注入">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              
-                <span class="leancloud-visitors-count"></span>
-            </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      </div>
       
       
-        <div class="post-gallery" itemscope="" itemtype="http://schema.org/ImageGallery">
-          
-          
-            <div class="post-gallery-row">
-              <a class="post-gallery-img fancybox" href="https://github.com/hiyouka/blog_article/blob/master/images/houses.jpg?raw=true" rel="gallery_cjrdmc6450002t1qs525ndf6w" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="https://github.com/hiyouka/blog_article/blob/master/images/houses.jpg?raw=true" itemprop="contentUrl">
-              </a>
-            
-          
-
-          
-          </div>
-        </div>
-      
-
-      
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>
-
       
     </div>
-
     
 
-    
-    
-    
 
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/proxy/" rel="tag"># proxy</a>
-          
-            <a href="/tags/spring/" rel="tag"># spring</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/01/25/2/" rel="next" title="多线程事务问题的记录">
-                <i class="fa fa-chevron-left"></i> 多线程事务问题的记录
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
   
   
-  
-  </article>
+  <ul class="breadcrumb">
+    
+      
+      
+        
+          
+            
+          
+          <li><a href="/2019/">2019</a></li>
+        
+      
+    
+      
+      
+        
+          
+            
+          
+          <li><a href="/2019/01/">01</a></li>
+        
+      
+    
+      
+      
+        
+          
+            
+          
+          <li><a href="/2019/01/26/">26</a></li>
+        
+      
+    
+      
+      
+        
+          <li>1</li>
+        
+      
+    
+      
+      
+        
+          
+            
+          
+          <li><a href="/2019/01/26//"></a></li>
+        
+      
+    
+  </ul>
 
 
+    
+    
+    
   </div>
 
 
