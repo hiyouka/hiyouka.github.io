@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://hiyouka.top/"/>
-  <updated>2019-01-26T13:25:46.925Z</updated>
+  <updated>2019-01-26T13:27:34.479Z</updated>
   <id>https://hiyouka.top/</id>
   
   <author>
@@ -21,14 +21,13 @@
     <link href="https://hiyouka.top/2019/01/26/1/"/>
     <id>https://hiyouka.top/2019/01/26/1/</id>
     <published>2019-01-26T01:13:00.000Z</published>
-    <updated>2019-01-26T13:25:46.925Z</updated>
+    <updated>2019-01-26T13:27:34.479Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&#8195;</p><p>&#8195;&#8195;<br>曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&#8195;&#8195;<br>曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;&amp;#8195;&lt;/p&gt;
-&lt;p&gt;&amp;#8195;&amp;#8195;&lt;br&gt;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的&lt;code&gt;@Autowired&lt;/code&gt;注解的设计,希望看到的小伙伴能有所收获。&lt;br&gt;
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;&amp;#8195;&amp;#8195;&lt;br&gt;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的&lt;code&gt;@Autowired&lt;/code&gt;注解的设计,希望看到的小伙伴能有所收获。&lt;br&gt;
     
     </summary>
     
@@ -46,7 +45,7 @@
     <link href="https://hiyouka.top/2019/01/25/2/"/>
     <id>https://hiyouka.top/2019/01/25/2/</id>
     <published>2019-01-25T01:13:00.000Z</published>
-    <updated>2019-01-26T13:25:46.940Z</updated>
+    <updated>2019-01-26T13:27:34.497Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&#8195;<br><a id="more"></a></p>]]></content>
     
