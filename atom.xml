@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://hiyouka.top/"/>
-  <updated>2019-01-26T15:36:48.248Z</updated>
+  <updated>2019-01-26T15:37:48.861Z</updated>
   <id>https://hiyouka.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://hiyouka.top/2019/01/26/1/"/>
     <id>https://hiyouka.top/2019/01/26/1/</id>
     <published>2019-01-26T01:13:00.000Z</published>
-    <updated>2019-01-26T15:36:48.248Z</updated>
+    <updated>2019-01-26T15:37:48.861Z</updated>
     
     <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>]]></content>
     
@@ -45,7 +45,7 @@
     <link href="https://hiyouka.top/2019/01/25/2/"/>
     <id>https://hiyouka.top/2019/01/25/2/</id>
     <published>2019-01-25T01:13:00.000Z</published>
-    <updated>2019-01-26T15:36:48.260Z</updated>
+    <updated>2019-01-26T15:37:48.873Z</updated>
     
     <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;</p><a id="more"></a>]]></content>
     
