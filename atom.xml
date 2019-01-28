@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://hiyouka.top/"/>
-  <updated>2019-01-27T12:12:05.716Z</updated>
+  <updated>2019-01-28T10:07:46.530Z</updated>
   <id>https://hiyouka.top/</id>
   
   <author>
@@ -18,23 +18,47 @@
   
   <entry>
     <title>实现spring的依赖注入</title>
-    <link href="https://hiyouka.top/2019/01/26/1/"/>
-    <id>https://hiyouka.top/2019/01/26/1/</id>
-    <published>2019-01-26T01:13:00.000Z</published>
-    <updated>2019-01-27T12:12:05.716Z</updated>
+    <link href="https://hiyouka.top/2019/01/27/4/"/>
+    <id>https://hiyouka.top/2019/01/27/4/</id>
+    <published>2019-01-27T01:13:00.000Z</published>
+    <updated>2019-01-28T10:07:46.530Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p><p>title=”“<br>itemprop=”dateCreated datePublished”</p><p>{ <strong>(‘post.comments_count’) + </strong>(‘symbol.colon’) }}</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;&amp;#8195;&amp;#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的&lt;code&gt;@Autowired&lt;/code&gt;注解的设计,希望看到的小伙伴能有所收获。&lt;br&gt;
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;&amp;#8195;&amp;#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的&lt;code&gt;@Autowired&lt;/code&gt;注解的设计,希望看到的小伙伴能有所收获。&lt;br&gt;
     
     </summary>
     
       <category term="spring实现" scheme="https://hiyouka.top/categories/spring%E5%AE%9E%E7%8E%B0/"/>
     
     
+      <category term="spring" scheme="https://hiyouka.top/tags/spring/"/>
+    
       <category term="proxy" scheme="https://hiyouka.top/tags/proxy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>实现spring的依赖注入</title>
+    <link href="https://hiyouka.top/2019/01/26/3/"/>
+    <id>https://hiyouka.top/2019/01/26/3/</id>
+    <published>2019-01-26T11:19:00.000Z</published>
+    <updated>2019-01-28T10:07:46.518Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点歌star或者follow一波。(<em>^_^</em>)<br><a id="more"></a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;&amp;#8195;&amp;#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点歌star或者follow一波。(&lt;em&gt;^_^&lt;/em&gt;)&lt;br&gt;
+    
+    </summary>
+    
+      <category term="spring实现" scheme="https://hiyouka.top/categories/spring%E5%AE%9E%E7%8E%B0/"/>
+    
+    
+      <category term="ioc" scheme="https://hiyouka.top/tags/ioc/"/>
     
       <category term="spring" scheme="https://hiyouka.top/tags/spring/"/>
     
@@ -45,7 +69,7 @@
     <link href="https://hiyouka.top/2019/01/25/2/"/>
     <id>https://hiyouka.top/2019/01/25/2/</id>
     <published>2019-01-25T01:13:00.000Z</published>
-    <updated>2019-01-27T12:12:05.730Z</updated>
+    <updated>2019-01-28T10:07:46.540Z</updated>
     
     <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;</p><a id="more"></a>]]></content>
     

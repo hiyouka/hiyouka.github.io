@@ -140,16 +140,20 @@
 
 
 
-  <meta name="description" content="hiyouka&apos;s blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hiyouka">
-<meta property="og:url" content="https://hiyouka.top/categories/spring实现/index.html">
+  <meta name="description" content="前言&amp;#8195;&amp;#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点歌star或者follow一波。(^_^)">
+<meta name="keywords" content="ioc,spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现spring的依赖注入">
+<meta property="og:url" content="https://hiyouka.top/2019/01/26/3/index.html">
 <meta property="og:site_name" content="Hiyouka">
-<meta property="og:description" content="hiyouka&apos;s blog">
+<meta property="og:description" content="前言&amp;#8195;&amp;#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点歌star或者follow一波。(^_^)">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006Xmmmgly1fzkwu9bq57j30xc0r4dlz.jpg">
+<meta property="og:updated_time" content="2019-01-28T10:07:46.518Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hiyouka">
-<meta name="twitter:description" content="hiyouka&apos;s blog">
+<meta name="twitter:title" content="实现spring的依赖注入">
+<meta name="twitter:description" content="前言&amp;#8195;&amp;#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点歌star或者follow一波。(^_^)">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006Xmmmgly1fzkwu9bq57j30xc0r4dlz.jpg">
 
 
 
@@ -158,7 +162,7 @@
 
 
 
-  <link rel="canonical" href="https://hiyouka.top/categories/spring实现/">
+  <link rel="canonical" href="https://hiyouka.top/2019/01/26/3/">
 
 
 
@@ -168,7 +172,7 @@
   };
 </script>
 
-  <title>Category: spring实现 | Hiyouka</title>
+  <title>实现spring的依赖注入 | Hiyouka</title>
   
 
 
@@ -216,7 +220,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -309,7 +313,7 @@
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
 
     
     
@@ -368,109 +372,245 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>spring实现<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hiyouka.top/2019/01/26/3/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hiyouka">
+      <meta itemprop="description" content="hiyouka's blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hiyouka">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2019/01/27/4/" itemprop="url">
-            
-              <span itemprop="name">实现spring的依赖注入</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">实现spring的依赖注入
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-27T09:13:00+08:00" content="2019-01-27">
-          01-27
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+             
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+
+             <span itemprop="dateCreated" datetime="2019-01-26T19:19:00+08:00" content="2019-01-26">
+		2019-01-26
+              </span>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/spring实现/" itemprop="url" rel="index"><span itemprop="name">spring实现</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <a href="/2019/01/26/3/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text"></span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/26/3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+	    
+            <span id="/2019/01/26/3/" class="leancloud_visitors" data-flag-title="实现spring的依赖注入">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+             
+
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/01/26/3/" itemprop="url">
+      
+        <div class="post-gallery" itemscope="" itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox" href="https://ws2.sinaimg.cn/large/006Xmmmgly1fzkwu9bq57j30xc0r4dlz.jpg" rel="gallery_cjrg669cw000216qskrhunsqy" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://ws2.sinaimg.cn/large/006Xmmmgly1fzkwu9bq57j30xc0r4dlz.jpg" itemprop="contentUrl">
+              </a>
             
-              <span itemprop="name">实现spring的依赖注入</span>
-            
-          </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-26T19:19:00+08:00" content="2019-01-26">
-          01-26
-        </time>
-      </div>
+          
+          </div>
+        </div>
+      
 
-    </header>
-  </article>
-
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点歌star或者follow一波。(<em>^_^</em>)<br><a id="more"></a></p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ioc/" rel="tag"># ioc</a>
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/25/2/" rel="next" title="多线程事务问题的记录">
+                <i class="fa fa-chevron-left"></i> 多线程事务问题的记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/27/4/" rel="prev" title="实现spring的依赖注入">
+                实现spring的依赖注入 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -491,8 +631,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -607,6 +756,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -763,6 +929,10 @@
 
 
   
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
 
   
 
@@ -776,9 +946,28 @@
   <script id="dsq-count-scr" src="https://hiyouka.disqus.com/count.js" async></script>
 
 
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://hiyouka.top/2019/01/26/3/";
+    this.page.identifier = "2019/01/26/3/";
+    this.page.title = '实现spring的依赖注入';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://hiyouka.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
 
 
 
+
+
+  
 
 
   
@@ -791,38 +980,32 @@
   
   <script>
     
-    function showTime(Counter) {
-      var entries = [];
+    function addCount(Counter) {
       var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
 
-      $visitors.each(function() {
-        entries.push( $(this).attr('id').trim() );
-      });
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { '$in': entries } }) })
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
         .done(function({ results }) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.url;
-            var time = item.time;
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for (var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if (countSpan.text() == '') {
-              countSpan.text(0);
-            }
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log(`Failed to save Visitor num, with error message: ${responseJSON.error}`);
+              })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
           }
         })
         .fail(function ({ responseJSON }) {
@@ -847,9 +1030,7 @@
             });
           };
           
-            if ($('.post-title-link').length >= 1) {
-              showTime(Counter);
-            }
+            addCount(Counter);
           
         });
     });

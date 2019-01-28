@@ -140,19 +140,19 @@
 
 
 
-  <meta name="description" content="前言&amp;#8195;&amp;#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的@Autowired注解的设计,希望看到的小伙伴能有所收获。">
-<meta name="keywords" content="proxy,spring">
+  <meta name="description" content="前言&amp;#8195;&amp;#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的@Autowired注解的设计,希望看到的小伙伴能有所收获。">
+<meta name="keywords" content="spring,proxy">
 <meta property="og:type" content="article">
 <meta property="og:title" content="实现spring的依赖注入">
-<meta property="og:url" content="https://hiyouka.top/2019/01/26/1/index.html">
+<meta property="og:url" content="https://hiyouka.top/2019/01/27/4/index.html">
 <meta property="og:site_name" content="Hiyouka">
-<meta property="og:description" content="前言&amp;#8195;&amp;#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的@Autowired注解的设计,希望看到的小伙伴能有所收获。">
+<meta property="og:description" content="前言&amp;#8195;&amp;#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的@Autowired注解的设计,希望看到的小伙伴能有所收获。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006Xmmmgly1fzkw1qcnpqj30m80fzq89.jpg">
-<meta property="og:updated_time" content="2019-01-27T12:12:05.716Z">
+<meta property="og:updated_time" content="2019-01-28T10:07:46.530Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现spring的依赖注入">
-<meta name="twitter:description" content="前言&amp;#8195;&amp;#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的@Autowired注解的设计,希望看到的小伙伴能有所收获。">
+<meta name="twitter:description" content="前言&amp;#8195;&amp;#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的@Autowired注解的设计,希望看到的小伙伴能有所收获。">
 <meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006Xmmmgly1fzkw1qcnpqj30m80fzq89.jpg">
 
 
@@ -162,7 +162,7 @@
 
 
 
-  <link rel="canonical" href="https://hiyouka.top/2019/01/26/1/">
+  <link rel="canonical" href="https://hiyouka.top/2019/01/27/4/">
 
 
 
@@ -392,7 +392,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hiyouka.top/2019/01/26/1/">
+    <link itemprop="mainEntityOfPage" href="https://hiyouka.top/2019/01/27/4/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hiyouka">
@@ -436,8 +436,8 @@
               
 
 
-             <span itemprop="dateCreated" datetime="2019-01-26T09:13:00+08:00" content="2019-01-26">
-		2019-01-26
+             <span itemprop="dateCreated" datetime="2019-01-27T09:13:00+08:00" content="2019-01-27">
+		2019-01-27
               </span>
             
 
@@ -473,8 +473,8 @@
                   <i class="fa fa-comment-o"></i>
                 </span>
             
-                <a href="/2019/01/26/1/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text"></span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/26/1/" itemprop="commentCount"></span>
+                <a href="/2019/01/27/4/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text"></span> <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/27/4/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -483,7 +483,7 @@
           
           
 	    
-            <span id="/2019/01/26/1/" class="leancloud_visitors" data-flag-title="实现spring的依赖注入">
+            <span id="/2019/01/27/4/" class="leancloud_visitors" data-flag-title="实现spring的依赖注入">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -516,7 +516,7 @@
           
           
             <div class="post-gallery-row">
-              <a class="post-gallery-img fancybox" href="https://ws3.sinaimg.cn/large/006Xmmmgly1fzkw1qcnpqj30m80fzq89.jpg" rel="gallery_cjrev6a6r0002txqsa0sb4zge" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url">
+              <a class="post-gallery-img fancybox" href="https://ws3.sinaimg.cn/large/006Xmmmgly1fzkw1qcnpqj30m80fzq89.jpg" rel="gallery_cjrg669d4000616qshaiakx9e" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url">
                 <img src="https://ws3.sinaimg.cn/large/006Xmmmgly1fzkw1qcnpqj30m80fzq89.jpg" itemprop="contentUrl">
               </a>
             
@@ -528,9 +528,7 @@
       
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;曾经用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>
-<p>title=”“<br>itemprop=”dateCreated datePublished”</p>
-<p>{ <strong>(‘post.comments_count’) + </strong>(‘symbol.colon’) }}</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>
 
       
     </div>
@@ -554,9 +552,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/proxy/" rel="tag"># proxy</a>
-          
             <a href="/tags/spring/" rel="tag"># spring</a>
+          
+            <a href="/tags/proxy/" rel="tag"># proxy</a>
           
         </div>
       
@@ -569,8 +567,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/25/2/" rel="next" title="多线程事务问题的记录">
-                <i class="fa fa-chevron-left"></i> 多线程事务问题的记录
+              <a href="/2019/01/26/3/" rel="next" title="实现spring的依赖注入">
+                <i class="fa fa-chevron-left"></i> 实现spring的依赖注入
               </a>
             
           </div>
@@ -654,7 +652,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -694,7 +692,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -944,8 +944,8 @@
 
 <script>
   var disqus_config = function() {
-    this.page.url = "https://hiyouka.top/2019/01/26/1/";
-    this.page.identifier = "2019/01/26/1/";
+    this.page.url = "https://hiyouka.top/2019/01/27/4/";
+    this.page.identifier = "2019/01/27/4/";
     this.page.title = '实现spring的依赖注入';
     };
   function loadComments() {
