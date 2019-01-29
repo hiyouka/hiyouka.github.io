@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://hiyouka.top/"/>
-  <updated>2019-01-29T07:16:36.982Z</updated>
+  <updated>2019-01-29T07:34:04.393Z</updated>
   <id>https://hiyouka.top/</id>
   
   <author>
@@ -17,24 +17,76 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="https://hiyouka.top/2019/01/29/test/"/>
-    <id>https://hiyouka.top/2019/01/29/test/</id>
-    <published>2019-01-29T07:16:36.982Z</published>
-    <updated>2019-01-29T07:16:36.982Z</updated>
+    <title>实现spring的依赖注入</title>
+    <link href="https://hiyouka.top/spring/ioc-create"/>
+    <id>https://hiyouka.top/spring/ioc-create</id>
+    <published>2019-01-29T01:13:00.000Z</published>
+    <updated>2019-01-29T07:34:04.393Z</updated>
     
-    <content type="html"><![CDATA[<hr><h2 id="title-test"><a href="#title-test" class="headerlink" title="title:test"></a>title:test</h2>]]></content>
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;hr&gt;
-&lt;h2 id=&quot;title-test&quot;&gt;&lt;a href=&quot;#title-test&quot; class=&quot;headerlink&quot; title=&quot;title:test&quot;&gt;&lt;/a&gt;title:test&lt;/h2&gt;
-      
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;&amp;#8195;&amp;#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的&lt;code&gt;@Autowired&lt;/code&gt;注解的设计,希望看到的小伙伴能有所收获。&lt;br&gt;
     
     </summary>
     
+      <category term="spring实现" scheme="https://hiyouka.top/categories/spring%E5%AE%9E%E7%8E%B0/"/>
+    
+    
+      <category term="spring" scheme="https://hiyouka.top/tags/spring/"/>
+    
+      <category term="proxy" scheme="https://hiyouka.top/tags/proxy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>自己实现一个可拓展的ioc容器</title>
+    <link href="https://hiyouka.top/spring/ioc-autowired"/>
+    <id>https://hiyouka.top/spring/ioc-autowired</id>
+    <published>2019-01-28T11:19:00.000Z</published>
+    <updated>2019-01-29T07:34:04.390Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点个star或者follow一波。(<em>^_^</em>)<br><a id="more"></a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;&amp;#8195;&amp;#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点个star或者follow一波。(&lt;em&gt;^_^&lt;/em&gt;)&lt;br&gt;
+    
+    </summary>
+    
+      <category term="spring实现" scheme="https://hiyouka.top/categories/spring%E5%AE%9E%E7%8E%B0/"/>
+    
+    
+      <category term="ioc" scheme="https://hiyouka.top/tags/ioc/"/>
+    
+      <category term="spring" scheme="https://hiyouka.top/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>多线程事务问题的记录</title>
+    <link href="https://hiyouka.top/transaction/thread-save"/>
+    <id>https://hiyouka.top/transaction/thread-save</id>
+    <published>2019-01-23T01:13:00.000Z</published>
+    <updated>2019-01-29T07:34:04.399Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;</p><a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;&amp;#8195;&amp;#8195;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="事务" scheme="https://hiyouka.top/categories/%E4%BA%8B%E5%8A%A1/"/>
+    
+      <category term="多线程" scheme="https://hiyouka.top/categories/%E4%BA%8B%E5%8A%A1/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+    
+      <category term="Transaction" scheme="https://hiyouka.top/tags/Transaction/"/>
+    
+      <category term="Thread" scheme="https://hiyouka.top/tags/Thread/"/>
     
   </entry>
   
