@@ -30,8 +30,8 @@
  */
 
 define('DISQUS_PUBKEY', 'E8Uh5l5fHZ6gD8U3KycjAIAk46f68Zw7C6eW8WSjZvCLXebZ7p0r1yrYDrLilk2F');
-define('PUBLIC_KEY', '');
-define('SECRET_KEY', '');
+define('PUBLIC_KEY', 'WOdHrjwiKEdb8bxC82vMaMaOaG2HSkganoxHx5rOiuT2wkZ0svaNEoH9yVZuEty6');
+define('SECRET_KEY', 'zTGkLClNLvjJW4qh9sb01VTCw2trsNgIHivirMWSBaa3OVuP5GLshWerf2STFpk2');
 define('DISQUS_USERNAME', 'dqhiyouka');
 define('DISQUS_EMAIL', 'hiyoukashama@gmail.com');
 define('DISQUS_PASSWORD', 'JiangYin@123');

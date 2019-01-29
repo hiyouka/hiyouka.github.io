@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://hiyouka.top/"/>
-  <updated>2019-01-29T09:22:25.381Z</updated>
+  <updated>2019-01-29T09:29:45.223Z</updated>
   <id>https://hiyouka.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://hiyouka.top/spring/ioc-create/"/>
     <id>https://hiyouka.top/spring/ioc-create/</id>
     <published>2019-01-29T01:13:00.000Z</published>
-    <updated>2019-01-29T09:22:25.381Z</updated>
+    <updated>2019-01-29T09:29:45.223Z</updated>
     
     <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;以前用扫包和java自带的动态代理实现了简单的类似spring自动注入的功能。通过半年的学习想要再次实现这样的功能并更贴近spring的<code>@Autowired</code>注解的设计,希望看到的小伙伴能有所收获。<br><a id="more"></a></p>]]></content>
     
@@ -45,7 +45,7 @@
     <link href="https://hiyouka.top/spring/ioc-autowired/"/>
     <id>https://hiyouka.top/spring/ioc-autowired/</id>
     <published>2019-01-28T11:19:00.000Z</published>
-    <updated>2019-01-29T09:22:25.359Z</updated>
+    <updated>2019-01-29T09:29:45.207Z</updated>
     
     <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;最近比较无聊研究了些spring的源码。于是想到了自己模仿spring写一个简单可扩展的ioc容器。希望能够帮到看到的小伙伴。博主的网站时刚搭建完成的还请小伙伴门多多关注。如果喜欢的话别忘了给博主的github项目点个star或者follow一波。(<em>^_^</em>)<br><a id="more"></a></p>]]></content>
     
@@ -69,7 +69,7 @@
     <link href="https://hiyouka.top/transaction/thread-save/"/>
     <id>https://hiyouka.top/transaction/thread-save/</id>
     <published>2019-01-23T01:13:00.000Z</published>
-    <updated>2019-01-29T09:22:25.390Z</updated>
+    <updated>2019-01-29T09:29:45.233Z</updated>
     
     <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&#8195;&#8195;</p><a id="more"></a>]]></content>
     
