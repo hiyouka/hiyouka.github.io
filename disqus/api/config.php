@@ -36,7 +36,7 @@ define('DISQUS_USERNAME', 'dqhiyouka');
 define('DISQUS_EMAIL', 'hiyoukashama@gmail.com');
 define('DISQUS_PASSWORD', 'JiangYin@123');
 define('DISQUS_WEBSITE', 'https://hiyouka.top');
-define('DISQUS_SHORTNAME', 'dqhiyouka');
+define('DISQUS_SHORTNAME', 'hiyouka');
 define('DISQUS_APPROVED', true);
 define('DISQUS_BLACKLIST', false);
 define('MOD_IDENT', 1);
