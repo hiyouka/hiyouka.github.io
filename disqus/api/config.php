@@ -32,11 +32,11 @@
 define('DISQUS_PUBKEY', 'E8Uh5l5fHZ6gD8U3KycjAIAk46f68Zw7C6eW8WSjZvCLXebZ7p0r1yrYDrLilk2F');
 define('PUBLIC_KEY', '');
 define('SECRET_KEY', '');
-define('DISQUS_USERNAME', 'disqus_vZfphshtom');
+define('DISQUS_USERNAME', 'dqhiyouka');
 define('DISQUS_EMAIL', 'hiyoukashama@gmail.com');
 define('DISQUS_PASSWORD', 'JiangYin@123');
 define('DISQUS_WEBSITE', 'https://hiyouka.top');
-define('DISQUS_SHORTNAME', 'hiyouka');
+define('DISQUS_SHORTNAME', 'dqhiyouka');
 define('DISQUS_APPROVED', true);
 define('DISQUS_BLACKLIST', false);
 define('MOD_IDENT', 1);
