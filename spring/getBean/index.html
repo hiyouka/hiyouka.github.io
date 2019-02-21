@@ -149,7 +149,7 @@
 <meta property="og:description" content="前言&amp;emsp;&amp;emsp;在分析spring容器的创建过程中分析了bean的创建过程。由于创建过程步骤还是比较多的于是就新开一篇博客来详细分析下beanFactory的getBean方法做了哪些操作。分析的是通过beanType获取bean，因为根据type获取其实最终调用的也是根据beanName获取bean。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g0cutps3irj31kw0oy4qp.jpg">
-<meta property="og:updated_time" content="2019-02-21T07:50:28.457Z">
+<meta property="og:updated_time" content="2019-02-21T07:53:12.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring对象创建初始化分析">
 <meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;在分析spring容器的创建过程中分析了bean的创建过程。由于创建过程步骤还是比较多的于是就新开一篇博客来详细分析下beanFactory的getBean方法做了哪些操作。分析的是通过beanType获取bean，因为根据type获取其实最终调用的也是根据beanName获取bean。">
@@ -567,7 +567,7 @@
 </li>
 </ol>
 <p>&emsp;&emsp;&emsp;&emsp; 从源码可以看出<code>getSingleton</code>做了以下几件事：1.从单例对象缓存中获取bean 2. 若1未获取到并且该对象正在创建则锁定单例缓存<br>                         从早期创建的对象中获取bean(待补全详细) 3.若2依旧未获取到并且允许提前创建早期对象则获取该bean的单例工厂，存在则创建并返回。<br>&emsp;&emsp;&emsp;&emsp; 该方法试图获取bean对象。获取到之后如果不为<code>null</code>则调用<code>getObjectForBeanInstance</code>来获取真实的实例。<br><code>getObjectForBeanInstance</code>方法做了以下事情:1如果之前获取的对象不是FactoryBean或者要获取的是FactoryBean(beanName前缀为<code>&amp;</code>)则直接返回bean<br>2如果之前获取的对象是FactoryBean并且要获取的是工厂生产的对象则通过FactoryBean获取对象(先从工厂生产对象缓存中获取,非单例对象工厂获取时不会放入缓存中)<br>&emsp;&emsp;&emsp;&emsp;如果<code>getSingleton</code>获取到的对象为<code>null</code>(容器还没有创建对象)则会创建对象:首先判断该对象是否在创建中。之后判断scope使用<code>doCreateBean</code>方法创建bean(大致是用反射调用无参构造函数具体看容器初始化)</p>
-<p>###总结:<br>整个bean的创建和初始化过程还是相当繁琐的步骤。在整个bean的生命周期中处处使用了缓存。不仔细看就会晕头转向。通过分析也能完全了解一个bean的创建生命周期。详细的demo可以去看博主的<a href="https://github.com/hiyouka/spring-cloud-resources" title="github" target="_blank" rel="noopener">github</a>。支持我的小伙伴可以给博主的github点下star。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h3><p>整个bean的创建和初始化过程还是相当繁琐的步骤。在整个bean的生命周期中处处使用了缓存。不仔细看就会晕头转向。通过分析也能完全了解一个bean的创建生命周期。详细的demo可以去看博主的<a href="https://github.com/hiyouka/spring-cloud-resources" title="github" target="_blank" rel="noopener">github</a>。支持我的小伙伴可以给博主的github点下star。</p>
 
       
     </div>
@@ -802,7 +802,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolveNamedBean："><span class="nav-number">2.</span> <span class="nav-text">resolveNamedBean：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getBean-beanName"><span class="nav-number">3.</span> <span class="nav-text">getBean(beanName)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#createBean创建对象："><span class="nav-number">3.1.</span> <span class="nav-text">createBean创建对象：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调用resolveBeforeInstantiation"><span class="nav-number">3.1.1.</span> <span class="nav-text">调用resolveBeforeInstantiation:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#doCreateBean"><span class="nav-number">3.1.2.</span> <span class="nav-text">doCreateBean:</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resolveNamedBean："><span class="nav-number">2.</span> <span class="nav-text">resolveNamedBean：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getBean-beanName"><span class="nav-number">3.</span> <span class="nav-text">getBean(beanName)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#createBean创建对象："><span class="nav-number">3.1.</span> <span class="nav-text">createBean创建对象：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调用resolveBeforeInstantiation"><span class="nav-number">3.1.1.</span> <span class="nav-text">调用resolveBeforeInstantiation:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#doCreateBean"><span class="nav-number">3.1.2.</span> <span class="nav-text">doCreateBean:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结:</span></a></li></ol></div>
             
 
           </div>
