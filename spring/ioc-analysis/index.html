@@ -152,7 +152,7 @@
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wn4k0pjj30ud05u74g.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wpn4k0kj30ps07ddg0.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wq1o62gj30y00guwfe.jpg">
-<meta property="og:updated_time" content="2019-02-20T10:31:49.918Z">
+<meta property="og:updated_time" content="2019-02-21T07:50:28.445Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring容器创建源码解析">
 <meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多(准备好瓜子和板凳😀)。希望喜欢的小伙伴给博主的github点个star或者follow一波(^_^)。">
@@ -604,7 +604,7 @@
 <li>如果容器中没有字符串解析器，new字符串解析器(使用容器Environment中的解析器来解析,默认是PropertySourcesPropertyResolver)。</li>
 <li>开启允许缓存所有的beanDefinition并且将所有的beanDefinitions放入冻结配置情况的缓存中。</li>
 <li>使用beanFactory的<code>preInstantiateSingletons</code>来实例化所有的beanDefinition。<ol>
-<li>遍历所有beanDefinition，获取该bean组合的beanDefinition。如果该bean需要工厂创建的对象，先使用getBean获取工厂对象再getBean获取工产对象。不是工厂对象直接调用getBean。(getBean起到创建对象作用。创建对象时会调用BeanPostProcessor。详细看这篇博客)</li>
+<li>遍历所有beanDefinition，获取该bean组合的beanDefinition。如果该bean需要工厂创建的对象，先使用getBean获取工厂对象再getBean获取工产对象。不是工厂对象直接调用getBean。(getBean起到创建对象作用。创建对象时会调用BeanPostProcessor。详细看<a href="https://hiyouka.top/spring/getBean/">这篇博客</a>这篇博客)</li>
 <li>遍历所有的beanDefinition，getSingleton从缓存中获取之前创建的Bean。如果该bean实现了SmartInitializingSingleton接口，执行接口方法afterSingletonsInstantiated。</li>
 </ol>
 </li>
