@@ -149,7 +149,7 @@
 <meta property="og:description" content="前言&amp;emsp;&amp;emsp;之前花了一些时间阅读了一部分spring源码,于是想自己实现一个类似spring容器功能的框架。利用工作之余花了半个月时间总算是写出了一个简单的容器seed。功能模块实现思想和spring类似，希望能够更好的帮助小伙伴了解spring的原理(github地址)。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g0yw2rag7nj30ha09qgmf.jpg">
-<meta property="og:updated_time" content="2019-03-11T07:32:47.436Z">
+<meta property="og:updated_time" content="2019-03-13T11:03:12.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现一个ioc容器">
 <meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;之前花了一些时间阅读了一部分spring源码,于是想自己实现一个类似spring容器功能的框架。利用工作之余花了半个月时间总算是写出了一个简单的容器seed。功能模块实现思想和spring类似，希望能够更好的帮助小伙伴了解spring的原理(github地址)。">
@@ -503,7 +503,7 @@
       
         <p><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g0yw2rag7nj30ha09qgmf.jpg" alt="img"></p>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;之前花了一些时间阅读了一部分spring源码,于是想自己实现一个类似spring容器功能的框架。利用工作之余花了半个月时间总算是写出了一个简单的容器seed。功能模块实现思想和spring类似，希望能够更好的帮助小伙伴了解spring的原理(<a href="https://github.com/hiyouka/seed-framework" target="_blank" rel="noopener">github地址</a>)。<br><a id="more"></a></p>
-<h3 id="容器的刷新"><a href="#容器的刷新" class="headerlink" title="容器的刷新"></a>容器的刷新</h3><p>&emsp;&emsp; seed容器是通过invokeBeanFactoryPostProcessors方法来执行提前注册在容器当中的处理器。该处理的功能就是解析加载进来的配置类。解析配置类上的<code>@ComponentScan</code>,<code>@Import</code>和<code>@Bean</code>注解。将所有<code>@Component</code>标识的组件加载到容器当中并形成bean的定义信息。 该方法通过扫描配置的路径来读取所有的class文件将其封装成Resource对象。之后解析class文件的信息读取到注解信息进行再解析。通过Resource信息来生成BeanDefinition，我这里解析class文件时使用的cglib包中带的asm组件使用里面的ClassReader类来解析class文件再进一步封装成bean的定义信息。<br>&emsp;&emsp;之后调用registerBeanPostProcessor方法将所有的BeanPostProcessor实例化添加到容器当中为之后的bean创建准备工作。<br>&emsp;&emsp;最后就是将所有的单例，非懒加载的bean创建到容器当中。在创建bean时会有一些前置后置处理流程。通过实现BeanPostProcessor接口可以来自定义bean创建时的前置后置处理方法。懒加载对象和多例对象会在调用getBean的时候才去进行创建对象。在getBean的时候将单例对象缓存起来，之后进行bean的获取工作时都是从缓存中获取。在以类型进行getBean的时候会先更具类型查出所有的bean名称，并生成一个类型对应名称的缓存，加快之后获取的效率。根据类型获取单个bean时，或检验bean上有没有@Primary注解。选择由@Primary注解的对象返回。如果都没有则会抛异常。这一点和Spring的实现类似。创建bean就是使用简单的反射调用构造函数来生成对象。</p>
+<h3 id="容器的刷新"><a href="#容器的刷新" class="headerlink" title="容器的刷新"></a>容器的刷新</h3><p>&emsp;&emsp; seed容器是通过invokeBeanFactoryPostProcessors方法来执行提前注册在容器当中的处理器。该处理的功能就是解析加载进来的配置类。解析配置类上的<code>@ComponentScan</code>,<code>@Import</code>和<code>@Bean</code>注解。将所有<code>@Component</code>标识的组件加载到容器当中并形成bean的定义信息。 该方法通过扫描配置的路径来读取所有的class文件将其封装成Resource对象。之后解析class文件的信息读取到注解信息进行再解析。通过Resource信息来生成BeanDefinition，我这里解析class文件时使用的cglib包中带的asm组件使用里面的ClassReader类来解析class文件再进一步封装成bean的定义信息。<br>&emsp;&emsp;之后调用registerBeanPostProcessor方法将所有的BeanPostProcessor实例化添加到容器当中为之后的bean创建准备工作。<br>&emsp;&emsp;最后就是将所有的单例，非懒加载的bean创建到容器当中。在创建bean时会有一些前置后置处理流程。通过实现BeanPostProcessor接口可以来自定义bean创建时的前置后置处理方法。懒加载对象和多例对象会在调用getBean的时候才去进行创建对象。在getBean的时候将单例对象缓存起来，之后进行bean的获取工作时都是从缓存中获取。在以类型进行getBean的时候会先更具类型查出所有的bean名称，并生成一个类型对应名称的缓存，加快之后获取的效率。根据类型获取单个bean时，或检验bean上有没有@Primary注解。选择由@Primary注解的对象返回。如果都没有则会抛异常。这一点和Spring的实现类似。创建bean就是使用简单的反射调用构造函数来生成对象。在处理@Bean注解的时候和spring有点差异，spring不会将@Bean导入的对象当作配置类继续处理，而我这边的实现会将其作为配置类继续处理。即：在@Bean导入的类上也可以引入其他类。</p>
 <h3 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h3><p>&emsp;&emsp; seed的生命周期和spring容器几乎一致。</p>
 <ol>
 <li>首先是创建初步的bean对象。</li>

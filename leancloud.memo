@@ -1,5 +1,6 @@
 [
 {"title":"自己实现一个ioc容器","url":"/seed/ioc/"},
+{"title":"实现一个ioc容器","url":"/seed/ioc/"},
 {"title":"Spring对象创建初始化分析","url":"/spring/getBean/"},
 {"title":"Spring容器创建源码解析","url":"/spring/ioc-analysis/"},
 {"title":"自己实现一个可拓展的ioc容器","url":"/spring/ioc-autowired/"},
