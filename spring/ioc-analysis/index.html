@@ -140,22 +140,22 @@
 
 
 
-  <meta name="description" content="前言&amp;emsp;&amp;emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多(准备好瓜子和板凳😀)。希望喜欢的小伙伴给博主的github点个star或者follow一波(^_^)。">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多，讲的也可能比较枯燥。不过我相信我的分析对大家理解spring容器的整个工作原理还是有一些帮助的。">
 <meta name="keywords" content="ioc,spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring容器创建源码解析">
 <meta property="og:url" content="https://hiyouka.top/spring/ioc-analysis/index.html">
 <meta property="og:site_name" content="Hiyouka">
-<meta property="og:description" content="前言&amp;emsp;&amp;emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多(准备好瓜子和板凳😀)。希望喜欢的小伙伴给博主的github点个star或者follow一波(^_^)。">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多，讲的也可能比较枯燥。不过我相信我的分析对大家理解spring容器的整个工作原理还是有一些帮助的。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wkhr0v9j30qo0dc7d2.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wn4k0pjj30ud05u74g.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wpn4k0kj30ps07ddg0.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wq1o62gj30y00guwfe.jpg">
-<meta property="og:updated_time" content="2019-03-13T11:14:39.125Z">
+<meta property="og:updated_time" content="2019-03-14T09:39:12.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring容器创建源码解析">
-<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多(准备好瓜子和板凳😀)。希望喜欢的小伙伴给博主的github点个star或者follow一波(^_^)。">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多，讲的也可能比较枯燥。不过我相信我的分析对大家理解spring容器的整个工作原理还是有一些帮助的。">
 <meta name="twitter:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wkhr0v9j30qo0dc7d2.jpg">
 
 
@@ -505,7 +505,7 @@
 
       
         <p><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wkhr0v9j30qo0dc7d2.jpg" alt="img"></p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多(准备好瓜子和板凳😀)。希望喜欢的小伙伴给博主的<a href="https://github.com/hiyouka/spring-cloud-resources" title="github" target="_blank" rel="noopener">github</a>点个star或者follow一波(<em>^_^</em>)。<br><a id="more"></a></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多，讲的也可能比较枯燥。不过我相信我的分析对大家理解spring容器的整个工作原理还是有一些帮助的。<br><a id="more"></a></p>
 <h3 id="无参构造器："><a href="#无参构造器：" class="headerlink" title="无参构造器："></a>无参构造器：</h3><p>&emsp;&emsp;先是调用它的无参构造函数，初始化一些信息。<br>&emsp;&emsp;无参构造函数中<code>new</code>了<code>AnnotatedBeanDefinitionReader</code>和<code>ClassPathBeanDefiitionScanner</code>赋值给<code>reader</code>context的<code>scanner</code>属性。  </p>
 <h4 id="newAnnotatedBeanDefinitionReader对象："><a href="#newAnnotatedBeanDefinitionReader对象：" class="headerlink" title="newAnnotatedBeanDefinitionReader对象："></a><code>new</code>AnnotatedBeanDefinitionReader对象：</h4><p>&emsp;&emsp;&emsp;&emsp;将该容器对象作为<code>BeanDefinitionRegistry</code>赋值给<code>registry</code>属性,并且<code>new</code>了一个<code>ConditionEvaluator</code>赋值给<code>conditionEvaluator</code>属性。之后调用<code>registerAnnotationConfigProcessors</code>方法将所有的annotation处理器注册进容器。  </p>
 <h5 id="new-ConditionEvaluator"><a href="#new-ConditionEvaluator" class="headerlink" title="new ConditionEvaluator:"></a>new ConditionEvaluator:</h5><p>&emsp;&emsp;&emsp;&emsp;这是spring对该类的描述<code>Internal class used to evaluate {@link Conditional} annotations.</code>。可以看出这个类是<code>@Conditional</code>注解的一个解析器。在创建该类的时候利用<code>deduceBeanFactory</code>给该对象初始化了一个<code>DefaultListableBeanFactory</code>,并且该类是从容器中获取的。  </p>
@@ -621,7 +621,7 @@
 <li>添加ContextRefreshedEvent的</li>
 <li>向LiveBeansView中注册该容器。（JMX的相关操作）</li>
 </ol>
-<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>以上就是AnnotationConfigApplicationContext的创建过程。内容还是挺多的，还有很多细节方面可以研究。之后我会自己实现一个可以扩展的简单容器（项目名字已经起好了叫seed😁），应该还会整合这个容器和netty（还在学习中…）实现一个异步的Controller层的框架，希望大家多多关注。</p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>以上就是AnnotationConfigApplicationContext的创建过程。这里解析的都是基于注解的解析方式，由兴趣的小伙伴还可以看下基于xml的解析(应该只有Resource读取有所差异)，之后我会自己实现一个可以扩展的简单容器（项目名字已经起好了叫seed😁），应该还会整合这个容器和netty（还在学习中…）实现一个异步的Controller层的框架，希望我的文章能帮到大家。</p>
 
       
     </div>

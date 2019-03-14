@@ -149,7 +149,7 @@
 <meta property="og:description" content="前言&amp;emsp;&amp;emsp;在分析spring容器的创建过程中分析了bean的创建过程。由于创建过程步骤还是比较多的于是就新开一篇博客来详细分析下beanFactory的getBean方法做了哪些操作。分析的是通过beanType获取bean，因为根据type获取其实最终调用的也是根据beanName获取bean。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g0cutps3irj31kw0oy4qp.jpg">
-<meta property="og:updated_time" content="2019-03-13T11:14:39.138Z">
+<meta property="og:updated_time" content="2019-03-14T09:39:12.220Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring对象创建初始化分析">
 <meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;在分析spring容器的创建过程中分析了bean的创建过程。由于创建过程步骤还是比较多的于是就新开一篇博客来详细分析下beanFactory的getBean方法做了哪些操作。分析的是通过beanType获取bean，因为根据type获取其实最终调用的也是根据beanName获取bean。">
@@ -566,7 +566,7 @@
 </ol>
 </li>
 </ol>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h3><p>整个bean的创建和初始化过程还是相当繁琐的步骤。在整个bean的生命周期中处处使用了缓存。不仔细看就会晕头转向。通过分析也能完全了解一个bean的创建生命周期。详细的demo可以去看博主的<a href="https://github.com/hiyouka/spring-cloud-resources" title="github" target="_blank" rel="noopener">github</a>。支持我的小伙伴可以给我的github点下star。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h3><p>整个bean的创建和初始化过程还是相当繁琐的步骤。bean的整个生命周期还是比较多样的，有很多BeanPostProcessor在bean创建前后以及初始化过程中都对bean进行了管理，包括bean全部创建后还有着回调功能，有着丰富的拓展功能。讲得可能不明了，希望对大家有所帮助。详细的demo可以去看博主的<a href="https://github.com/hiyouka/spring-cloud-resources" title="github" target="_blank" rel="noopener">github</a>。</p>
 
       
     </div>
