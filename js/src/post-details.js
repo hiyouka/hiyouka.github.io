@@ -36,7 +36,8 @@ $(document).ready(function() {
   var hasVelocity = $.isFunction(html.velocity);
 
 
-  $(".post-body").find("img").on('click', function(){
+  $(".post-body img").on('click', function(){
+        console.log('666666666666666666');
         var _this = $(this);//将当前的pimg元素作为_this传入函数
         imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
   })
