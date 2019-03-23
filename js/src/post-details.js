@@ -35,6 +35,13 @@ $(document).ready(function() {
   var TAB_ANIMATE_DURATION = 200;
   var hasVelocity = $.isFunction(html.velocity);
 
+
+  $(".post-body").find("img").on('click', function(){
+        var _this = $(this);//将当前的pimg元素作为_this传入函数
+        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+  })
+
+
   $('.sidebar-nav li').on('click', function() {
     var item = $(this);
     var activeTabClassName = 'sidebar-nav-active';
@@ -104,11 +111,6 @@ $(document).ready(function() {
 });
 
 // img set config js
-
-$(".post-body").find("img").click(function(){
-	var _this = $(this);//将当前的pimg元素作为_this传入函数
-	imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);	
-})
 
 function imgShow(outerdiv, innerdiv, bigimg, _this){
     var src = _this.attr("src");//获取当前点击的pimg元素中的src属性
