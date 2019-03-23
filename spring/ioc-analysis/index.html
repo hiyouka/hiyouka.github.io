@@ -152,7 +152,7 @@
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wn4k0pjj30ud05u74g.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wpn4k0kj30ps07ddg0.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wq1o62gj30y00guwfe.jpg">
-<meta property="og:updated_time" content="2019-03-14T09:45:05.222Z">
+<meta property="og:updated_time" content="2019-03-23T09:00:04.863Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring容器创建源码解析">
 <meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;这篇博客是对Spring(5.0.7)的ioc容器创建过程的解析，也是博主不断debug几天的成果。内容可能有点多，讲的也可能比较枯燥。不过我相信我的分析对大家理解spring容器的整个工作原理还是有一些帮助的。">
@@ -549,7 +549,7 @@
 <li>获取<code>@PropertySource</code>注解信息(之后所有的获取注解信息都是分析<code>shouldSkip</code>提到的searchWithGetSemantics方法完成的)，使用processPropertySource解析添加配置文件信息。处理过程大致是先创建PropertySource(创建的时候调用loadProperties读取配置文件信息)。之后将该配置文件信息添加到beanFactory的<code>environment</code>bean对象中去。</li>
 <li>获取<code>@ComponentScans</code>注解信息(若未获取到则为配置类的目录)。使用<code>ComponentScanAnnocationParser</code>来解析需要注册的bean，之后调用<code>ClassPathBeanDefinitionScanner</code>的doScan来将beanDefinition注册进容器。doScan做的事情就是扫包获取指定包的所有class文件并筛选有<code>@Component</code>并且<code>@Conditional</code>匹配的class。BeanDefinition注册过程就是之前提到的registerBeanDefinition方法。之后遍历获取到的BeanDefinitions执行parse。<br>操作将注册进来的Bean里的<code>@PropertySource</code>,<code>@ComponentScans</code>等注解的信息注册进来(递归注册)。</li>
 <li><code>@Import</code>注解解析。processImports方法来执行该操作。将所有该注解引入的类注册到容器当中。使用collectImports方法递归查找该类下所有的注解中包含的<code>@Import</code>引入的对象。之后便是遍历处理操作：<ol>
-<li>如果引入对象是<code>ImportSelector</code>实现类，实例化该类。如果该类实现了<code>Aware</code>接口先给该类初始化这些属性(包含<code>BeanClassLoaderAware</code>,<code>BeanFactoryAware</code>,<code>EnvironmentAware</code>,<code>ResourceLoaderAware</code>)。之后判断如果该类实现类DeferredImportSelector接口就将其放入<code>deferredImportSelectors</code>后续处理。否则获取import对象执行processImports递归。</li>
+<li>如果引入对象是<code>ImportSelector</code>实现类，实例化该类。如果该类实现了<code>Aware</code>接口先给该类初始化这些属性(包含<code>BeanClassLoaderAware</code>,<code>BeanFactoryAware</code>,<code>EnvironmentAware</code>,<code>ResourceLoaderAware</code>)。之后判断如果该类实现类DeferredImportSelector接口就将其放入<code>deferredImportSelectors</code>后续处理。否则调用selectImports获取import对象并执行processImports递归。</li>
 <li>如果引入对象是<code>ImportBeanDefinitionRegistrar</code>实现类，和之前一样先实例化再根据<code>Aware</code>初始化。最后将实例化后的类添加到带有<code>@Import</code>类的<code>ConfigurationClass</code>的<code>importBeanDefinitionRegistrars</code>属性中以便后续操作。</li>
 <li>其他情况将其放入<code>ConfigurationClassParser</code>的<code>importStack</code>的<code>imports</code>缓存(用于判断该类是否需要解析)。生成该类的<code>ConfigurationClass</code>(带有<code>importedBy</code>属性)。</li>
 </ol>
@@ -666,8 +666,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/spring/ioc-create/" rel="prev" title="实现spring的依赖注入">
-                实现spring的依赖注入 <i class="fa fa-chevron-right"></i>
+              <a href="/spring/getBean/" rel="prev" title="Spring对象创建初始化分析">
+                Spring对象创建初始化分析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -764,7 +764,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>

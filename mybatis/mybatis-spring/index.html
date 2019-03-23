@@ -140,20 +140,25 @@
 
 
 
-  <meta name="description" content="前言&amp;emsp;&amp;emsp;之前花了一些时间阅读了一部分spring源码,于是想自己实现一个类似spring容器功能的框架。利用工作之余花了半个月时间总算是写出了一个简单的容器seed。功能模块实现思想和spring类似，希望能够更好的帮助小伙伴了解spring的原理(github地址)。">
-<meta name="keywords" content="ioc,seed">
+  <meta name="description" content="前言&amp;emsp;&amp;emsp;之前阅读了spring的ioc容器初始化源码感觉阅读源码还是一件很有意义的事情,除了能了解它们底层的实现方式,还能学习它们使用的巧妙设计模式,于是想着再阅读一下常用框架mybatis的原理。这次为了更清晰的记录框架结构采用了画图的方式,也方便了以后复习回忆。(项目demo地址)">
+<meta name="keywords" content="mybatis,SpringBoot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="实现一个ioc容器">
-<meta property="og:url" content="https://hiyouka.top/seed/ioc/index.html">
+<meta property="og:title" content="Mybatis源码分析(结合SpringBoot自动装配)">
+<meta property="og:url" content="https://hiyouka.top/mybatis/mybatis-spring/index.html">
 <meta property="og:site_name" content="Hiyouka">
-<meta property="og:description" content="前言&amp;emsp;&amp;emsp;之前花了一些时间阅读了一部分spring源码,于是想自己实现一个类似spring容器功能的框架。利用工作之余花了半个月时间总算是写出了一个简单的容器seed。功能模块实现思想和spring类似，希望能够更好的帮助小伙伴了解spring的原理(github地址)。">
+<meta property="og:description" content="前言&amp;emsp;&amp;emsp;之前阅读了spring的ioc容器初始化源码感觉阅读源码还是一件很有意义的事情,除了能了解它们底层的实现方式,还能学习它们使用的巧妙设计模式,于是想着再阅读一下常用框架mybatis的原理。这次为了更清晰的记录框架结构采用了画图的方式,也方便了以后复习回忆。(项目demo地址)">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g0yw2rag7nj30ha09qgmf.jpg">
-<meta property="og:updated_time" content="2019-03-23T09:00:04.877Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g19bzb8qg4j309q02gq2s.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1bcwin1ugj30s708zjrj.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g19cyry8qtj30gm03d745.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1ae59ihc8j30pi05jq32.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1bplmlsgkj30uy0kv770.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1csxz0lraj30xf0dy76r.jpg">
+<meta property="og:updated_time" content="2019-03-23T09:00:04.852Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="实现一个ioc容器">
-<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;之前花了一些时间阅读了一部分spring源码,于是想自己实现一个类似spring容器功能的框架。利用工作之余花了半个月时间总算是写出了一个简单的容器seed。功能模块实现思想和spring类似，希望能够更好的帮助小伙伴了解spring的原理(github地址)。">
-<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g0yw2rag7nj30ha09qgmf.jpg">
+<meta name="twitter:title" content="Mybatis源码分析(结合SpringBoot自动装配)">
+<meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;之前阅读了spring的ioc容器初始化源码感觉阅读源码还是一件很有意义的事情,除了能了解它们底层的实现方式,还能学习它们使用的巧妙设计模式,于是想着再阅读一下常用框架mybatis的原理。这次为了更清晰的记录框架结构采用了画图的方式,也方便了以后复习回忆。(项目demo地址)">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g19bzb8qg4j309q02gq2s.jpg">
 
 
 
@@ -162,7 +167,7 @@
 
 
 
-  <link rel="canonical" href="https://hiyouka.top/seed/ioc/">
+  <link rel="canonical" href="https://hiyouka.top/mybatis/mybatis-spring/">
 
 
 
@@ -172,7 +177,7 @@
   };
 </script>
 
-  <title>实现一个ioc容器 | Hiyouka</title>
+  <title>Mybatis源码分析(结合SpringBoot自动装配) | Hiyouka</title>
   
 
 
@@ -387,12 +392,12 @@
 
   
 
-  <article class="post post-type-seed" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-mybatis" itemscope="" itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://hiyouka.top/seed/ioc/">
+    <link itemprop="mainEntityOfPage" href="https://hiyouka.top/mybatis/mybatis-spring/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hiyouka">
@@ -409,7 +414,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">实现一个ioc容器
+          <h1 class="post-title" itemprop="name headline">Mybatis源码分析(结合SpringBoot自动装配)
 
               
             
@@ -436,8 +441,8 @@
               
 
 
-             <span itemprop="dateCreated" datetime="2019-03-09T19:19:00+08:00" content="2019-03-09">
-		2019-03-09
+             <span itemprop="dateCreated" datetime="2019-03-20T15:54:20+08:00" content="2019-03-20">
+		2019-03-20
               </span>
             
 
@@ -454,7 +459,7 @@
               </span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/seed/" itemprop="url" rel="index"><span itemprop="name">seed</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/mybatis/" itemprop="url" rel="index"><span itemprop="name">mybatis</span></a></span>
 
                 
                 
@@ -470,7 +475,7 @@
           
           
 	    
-            <span id="/seed/ioc/" class="leancloud_visitors" data-flag-title="实现一个ioc容器">
+            <span id="/mybatis/mybatis-spring/" class="leancloud_visitors" data-flag-title="Mybatis源码分析(结合SpringBoot自动装配)">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -501,26 +506,39 @@
       
 
       
-        <p><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g0yw2rag7nj30ha09qgmf.jpg" alt="img"></p>
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;之前花了一些时间阅读了一部分spring源码,于是想自己实现一个类似spring容器功能的框架。利用工作之余花了半个月时间总算是写出了一个简单的容器seed。功能模块实现思想和spring类似，希望能够更好的帮助小伙伴了解spring的原理(<a href="https://github.com/hiyouka/seed-framework" target="_blank" rel="noopener">github地址</a>)。<br><a id="more"></a></p>
-<h3 id="容器的刷新"><a href="#容器的刷新" class="headerlink" title="容器的刷新"></a>容器的刷新</h3><p>&emsp;&emsp; seed容器是通过invokeBeanFactoryPostProcessors方法来执行提前注册在容器当中的处理器。该处理的功能就是解析加载进来的配置类。解析配置类上的<code>@ComponentScan</code>,<code>@Import</code>和<code>@Bean</code>注解。将所有<code>@Component</code>标识的组件加载到容器当中并形成bean的定义信息。 该方法通过扫描配置的路径来读取所有的class文件将其封装成Resource对象。之后解析class文件的信息读取到注解信息进行再解析。通过Resource信息来生成BeanDefinition，我这里解析class文件时使用的cglib包中带的asm组件使用里面的ClassReader类来解析class文件再进一步封装成bean的定义信息。<br>&emsp;&emsp;之后调用registerBeanPostProcessor方法将所有的BeanPostProcessor实例化添加到容器当中为之后的bean创建准备工作。<br>&emsp;&emsp;最后就是将所有的单例，非懒加载的bean创建到容器当中。在创建bean时会有一些前置后置处理流程。通过实现BeanPostProcessor接口可以来自定义bean创建时的前置后置处理方法。懒加载对象和多例对象会在调用getBean的时候才去进行创建对象。在getBean的时候将单例对象缓存起来，之后进行bean的获取工作时都是从缓存中获取。在以类型进行getBean的时候会先更具类型查出所有的bean名称，并生成一个类型对应名称的缓存，加快之后获取的效率。根据类型获取单个bean时，或检验bean上有没有@Primary注解。选择由@Primary注解的对象返回。如果都没有则会抛异常。这一点和Spring的实现类似。创建bean就是使用简单的反射调用构造函数来生成对象。在处理@Bean注解的时候和spring有点差异，spring不会将@Bean导入的对象当作配置类继续处理，而我这边的实现会将其作为配置类继续处理。即：在@Bean导入的类上也可以引入其他类。</p>
-<h3 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h3><p>&emsp;&emsp; seed的生命周期和spring容器几乎一致。</p>
+        <p><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g19bzb8qg4j309q02gq2s.jpg" alt="img"></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>&emsp;&emsp;之前阅读了spring的ioc容器初始化源码感觉阅读源码还是一件很有意义的事情,除了能了解它们底层的实现方式,还能学习它们使用的巧妙设计模式,于是想着再阅读一下常用框架mybatis的原理。这次为了更清晰的记录框架结构采用了画图的方式,也方便了以后复习回忆。(<a href="https://github.com/hiyouka/spring-cloud-resources" target="_blank" rel="noopener">项目demo地址</a>)<br><a id="more"></a></p>
+<h3 id="注册mapper接口类"><a href="#注册mapper接口类" class="headerlink" title="注册mapper接口类"></a>注册mapper接口类</h3><p>&emsp;&emsp;首先从MapperScan注解开始它引入了一个类MapperScannerRegistrar。该类实现了ImportBeanDefinitionRegistrar接口,所以在spring容器启动的时候会在ConfigurationClassBeanDefinitionReader调用loadBeanDefinitions的时候调用该类的registerBeanDefinitions方法将@MapperScan配置的路径中的class类添加到spring容器当中(spring源码解析中有关于容器启动的过程解析)。</p>
 <ol>
-<li>首先是创建初步的bean对象。</li>
-<li>之后再进行bean的依赖注入工作(该功能待完成)。</li>
-<li>调用beanPostProcessor的前置处理方法。</li>
-<li>如果该bean实现Initialization接口那么会先执行afterPropertiesSet方法。之后执行init方法(通过@InitMethod注解来标记init方法)</li>
-<li>调用beanPostProcessor的后置处理方法。</li>
+<li>该类的registerBeanDefinitions方法首先是创建了一个ClassPathMapperScanner类(继承了spring的扫包类ClassPathBeanDefinitionScanner)。</li>
+<li>给ClassPathMapperScanner设置了一些注册过滤器(根据@MapperScan注解的markerInterface属性添加过滤器,还会添加一个始终为true的过滤器)。</li>
+<li>调用父类的doScan方法将bean定义信息注册到容器当中。</li>
+<li>通过processBeanDefinitions方法,主要就是将该类定义信息封装成MapperFactoryBean(实现spring的FactoryBean),还会给bean定义信息添加ConstructorArgumentValues让spring之后创建该MapperFactoryBean的时候调用以该接口class为参数的构造函数来创建对象。容器对象实例化getBean的时候将会调用MapperFactoryBean的getObject。<br><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g1bcwin1ugj30s708zjrj.jpg" alt="img"><br><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g19cyry8qtj30gm03d745.jpg" alt="img"></li>
 </ol>
-<h3 id="其他功能"><a href="#其他功能" class="headerlink" title="其他功能"></a>其他功能</h3><ol>
-<li>通过实现seed的BeanFactoryPostProcessor接口可以再容器扫包之后往容器中添加一些bean定义信息。</li>
-<li>实现EnvironmentAware接口可以往类中添加Environment环境变量类。从该类中可以获取环境变量信息，jvm参数信息，以及使用@PropertySources导入的配置文件数据。</li>
-<li>实现BeanFactoryAware接口可以获取容器的beanFactory。</li>
-<li>实现ApplicationContextAware接口可以获取到ApplicationContext容器。</li>
-<li>容器中默认注册了环境变量信息，以及配置的读取配置文件的数据信息。通过getBean可获取容器中的组件来获取上述信息。</li>
+<h3 id="mapper接口类的创建"><a href="#mapper接口类的创建" class="headerlink" title="mapper接口类的创建"></a>mapper接口类的创建</h3><p>&emsp;&emsp;在第一个Mapper接口类创建的时候会创建sqlSessionFactory,sqlSessionTemplate(如果没有手动注册的话)。这些类是由mybatis的自动配置类来注册创建的,之后会详细分析。创建Mapper类的实例就是调用MapperFactoryBean的getObject,最终调用的是MapperRegistry的getMapper,从下图可以看出来实现原理就是使用java的动态代理来创建一个代理对象,代理类为MapperProxy类。<br><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g1ae59ihc8j30pi05jq32.jpg" alt="img"><br>&emsp;&emsp;在MapperFactoryBean创建完成之后会执行初始化方法(DaoSupport实现了InitializingBean接口),初始化方法中调用了checkDaoConfig和initDao方法。<br>MapperFactoryBean重写了checkDaoConfig方法。MapperRegistry类管理着mapper类和MapperProxyFactory映射的map集合。<br>checkDaoConfig方法：</p>
+<ol>
+<li>MapperAnnotationBuilder的loadXmlResource获取xml文件资源(这里要提一下, mybatis直接通过mapper文件路径寻找xml,如果mapper接口与xml路径不一致会导致无法读取到xml文件而且最坑的是它把异常给捕获了,即使找不到启动也不会报错,而会在你调用mapper方法的时候再报错。。。)获取到xml资源创建创建loadXmlResource对象<ol>
+<li>createDocument 读取xml的document对象并封装在XPathParser对象中。</li>
+<li>configurationElement,利用XpathParser解析mapper,resultMap,sql等dom节点信息。</li>
+<li>buildStatementFromContext 读取sql语句(insert/update/delete/select节点),封装成MappedStatement对象并添加到Configuration中。</li>
 </ol>
-<p>这些功能都是基于一个后置处理器来实现的。再bean的创建当中如果该bean实现以上接口则会将以上对相应的信息通过接口方法注入。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp; 这个项目自己结合spring源码写出来的缩减版ioc容器。其实每一步的程序实现都是比较简单的。难点就在于通用性接口设计，功能抽象等（其实这些我都是模仿的spring😓）。之后这个项目还会加上依赖注入，aop以及web服务的功能。</p>
+</li>
+<li>MapperAnnotationBuilder的parseStatement方法将基于注解的sql信息封装到成MappedStatement添加到Configuration。<br>mybatis初始化动态sql图解：<br><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g1bplmlsgkj30uy0kv770.jpg" alt="img"></li>
+</ol>
+<h3 id="mybatis的自动装配-SpringBoot"><a href="#mybatis的自动装配-SpringBoot" class="headerlink" title="mybatis的自动装配(SpringBoot)"></a>mybatis的自动装配(SpringBoot)</h3><p>&emsp;&emsp;SpringBoot首先在启动的时候会读取项目下的”META-INF/spring.factories”路径的自动配置类,过滤器,监听器,ApplicationContextInitializer等。mybatis的自动装配就引入了MybatisAutoConfiguration类。<br>&emsp;&emsp;分析mybatis的自动装配前需要来接下@EnableAutoConfiguration注解,SpringBoot的启动注解@SpringBootApplication就自带该注解,该注解引入了两个类分别是AutoConfigurationImportSelector,AutoConfigurationPackages.Registrar。</p>
+<ol>
+<li>AutoConfigurationImportSelector: 该类实现了DeferredImportSelector接口(继承ImportSelector接口),所以在spring进行容器刷新的时候会调用该类的selectImports方法将一些组件注册进容器当中。<br>这个类的selectImports方法：<ol>
+<li>从项目中读取”META-INF/spring-autoconfigure-metadata.properties”文件的内容(自动装配引入的类)。</li>
+<li>从缓存中获取EnableAutoConfiguration类的类名(SpringBoot启动时读取的自动配置类);</li>
+<li>移除配置的忽略类(@SpringBootApplication/@EnableAutoConfiguration的exclude属性配置)</li>
+<li>使用过滤器筛选自动配置类。SpringBoot默认注册了OnClassCondition过滤器,在spring-autoconfigure-metadata.properties的配置文件中需要配置ConditionalOnClass对应的value就是OnClassCondition类去判断的类)该过滤器筛选掉ClassLoader中缺失所需类的自动装配类。</li>
+</ol>
+</li>
+<li>AutoConfigurationPackages.Registrar:将AutoConfigurationPackages类注册入容器,目前还不清楚该类的作用。官方描述：Class for storing auto-configuration packages for reference later (e.g. by JPA entity scanner).<br>SpringBoot读取自动装配类流程图如下：<br><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g1csxz0lraj30xf0dy76r.jpg" alt="img"></li>
+</ol>
+<p>&emsp;&emsp;之后在容器刷新创建类的时候就会自动配置sqlSessionFactory,sqlSessionTemplate类。mybatis的自动装配类中还有一个类MapperScannerRegistrarNotFoundConfiguration,当检测到容器中没有MapperFactory时就会扫描项目中Mapper的类将其作为MapperFactory注册进容器。也就是表示可以不添加@MapperScan注解，只在接口类上加上@Mapper注解就可以注入容器当中了。</p>
+<h3 id="mapper接口方法的执行："><a href="#mapper接口方法的执行：" class="headerlink" title="mapper接口方法的执行："></a>mapper接口方法的执行：</h3><p>&emsp;&emsp;第二部分中提到创建在容器当中的Mapper接口类是一个MapperProxy的代理类。在我们调用Mapper接口的方法时就会执行MapperProxy的invoke方法。</p>
+<p>AutoConfigurationGroup  </p>
 
       
     </div>
@@ -544,9 +562,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ioc/" rel="tag"># ioc</a>
-          
-            <a href="/tags/seed/" rel="tag"># seed</a>
+            <a href="/tags/mybatis-SpringBoot/" rel="tag"># mybatis,SpringBoot</a>
           
         </div>
       
@@ -559,8 +575,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/spring/getBean/" rel="next" title="Spring对象创建初始化分析">
-                <i class="fa fa-chevron-left"></i> Spring对象创建初始化分析
+              <a href="/seed/ioc/" rel="next" title="实现一个ioc容器">
+                <i class="fa fa-chevron-left"></i> 实现一个ioc容器
               </a>
             
           </div>
@@ -568,10 +584,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/mybatis/mybatis-spring/" rel="prev" title="Mybatis源码分析(结合SpringBoot自动装配)">
-                Mybatis源码分析(结合SpringBoot自动装配) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -759,7 +771,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#容器的刷新"><span class="nav-number">2.</span> <span class="nav-text">容器的刷新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bean的生命周期"><span class="nav-number">3.</span> <span class="nav-text">bean的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他功能"><span class="nav-number">4.</span> <span class="nav-text">其他功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册mapper接口类"><span class="nav-number">2.</span> <span class="nav-text">注册mapper接口类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper接口类的创建"><span class="nav-number">3.</span> <span class="nav-text">mapper接口类的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mybatis的自动装配-SpringBoot"><span class="nav-number">4.</span> <span class="nav-text">mybatis的自动装配(SpringBoot)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper接口方法的执行："><span class="nav-number">5.</span> <span class="nav-text">mapper接口方法的执行：</span></a></li></ol></div>
             
 
           </div>
@@ -939,9 +951,9 @@
 
 <script>
   var disqus_config = function() {
-    this.page.url = "https://hiyouka.top/seed/ioc/";
-    this.page.identifier = "seed/ioc/";
-    this.page.title = '实现一个ioc容器';
+    this.page.url = "https://hiyouka.top/mybatis/mybatis-spring/";
+    this.page.identifier = "mybatis/mybatis-spring/";
+    this.page.title = 'Mybatis源码分析(结合SpringBoot自动装配)';
     };
   function loadComments() {
     var d = document, s = d.createElement('script');
