@@ -1903,7 +1903,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #24577d;
+  background: #ff6cff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3216,8 +3216,8 @@ ul.breadcrumb li+li:last-child {
 #pictureViewer > .content {
   background-color: #fff;
   position: absolute;
-  width: 590px;
-  height: 590px;
+  width: 700px;
+  height: 500px;
   margin: auto;
   top: 0;
   right: 0;
