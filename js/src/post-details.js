@@ -38,12 +38,13 @@ $(document).ready(function() {
   $(".post-body img").addClass("cover");
 
   $(".post-body img").on('click', function(){
-        var this_ = $(this);
-	var images = this_.parents('.post-body').find('.cover');
-	var imagesArr = new Array();
+        let this_ = $(this);
+	let images = this_.parents('.post-body').find('.cover');
+	let imagesArr = new Array();
+	let this_index;
 	$.each(images, function (i, image) {
 		thisSrc = this_.children('img').attr('src');
-		let imgSrc = $(image).children('img').attr('src');
+		let imgSrc = $(image).attr('src');
 		imagesArr.push(imgSrc);
 		if(thisSrc == imgSrc){
 			this_index = i;
@@ -51,7 +52,7 @@ $(document).ready(function() {
 	});
 	$.pictureViewer({
 		images: imagesArr, //需要查看的图片，数据类型为数组
-		initImageIndex: 1, //初始查看第几张图片，默认1
+		initImageIndex: this_index + 1, //初始查看第几张图片，默认1
 		scrollSwitch: false //是否使用鼠标滚轮切换图片，默认false
 	}); 
   })
