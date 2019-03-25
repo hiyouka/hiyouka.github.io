@@ -45,6 +45,7 @@ $(document).ready(function() {
 	$.each(images, function (i, image) {
 		imagesArr.push($(image).attr('src'));
 	});
+	console.log(this_);
 	console.log(imagesArr);
 	$.pictureViewer({
 		images: imagesArr, //需要查看的图片，数据类型为数组
