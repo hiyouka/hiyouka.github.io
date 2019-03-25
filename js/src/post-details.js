@@ -37,7 +37,7 @@ $(document).ready(function() {
 
   $(".post-body img").addClass("cover");
 
-  $(".post-body img").on('click','.cover', function(){
+  $(".cover").on('click','.cover', function(){
         console.log('666666666666666666');
         var this_ = $(this);
 	var images = this_.parents('.post-body').find('.cover');
