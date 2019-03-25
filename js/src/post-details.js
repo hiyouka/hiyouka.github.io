@@ -43,7 +43,7 @@ $(document).ready(function() {
 	console.log(images);
 	var imagesArr = new Array();
 	$.each(images, function (i, image) {
-		imagesArr.push($(image).children('img').attr('src'));
+		imagesArr.push($(image).attr('src'));
 	});
 	console.log(imagesArr);
 	$.pictureViewer({
