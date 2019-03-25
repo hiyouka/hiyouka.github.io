@@ -43,7 +43,8 @@ $(document).ready(function() {
 	let imagesArr = new Array();
 	let this_index;
 	$.each(images, function (i, image) {
-		thisSrc = this_.children('img').attr('src');
+		thisSrc = this_.attr('src');
+		console.log(thisSrc);
 		let imgSrc = $(image).attr('src');
 		imagesArr.push(imgSrc);
 		if(thisSrc == imgSrc){
