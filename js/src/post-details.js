@@ -42,14 +42,19 @@ $(document).ready(function() {
 	var images = $('.post-body img');
 	console.log(images);
 	var imagesArr = new Array();
+
+	
 	$.each(images, function (i, image) {
-		imagesArr.push($(image).attr('src'));
+		thisSrc = this_.children('img').attr('src');
+		let imgSrc = $(image).children('img').attr('src');
+		imagesArr.push(imgSrc);
+		if(thisSrc == imgSrc){
+			this_index = i;
+		}
 	});
-	console.log(this_);
-	console.log(imagesArr);
 	$.pictureViewer({
 		images: imagesArr, //需要查看的图片，数据类型为数组
-		initImageIndex: this_.index() + 1, //初始查看第几张图片，默认1
+		initImageIndex: this_index + 1, //初始查看第几张图片，默认1
 		scrollSwitch: false //是否使用鼠标滚轮切换图片，默认false
 	}); 
   })
