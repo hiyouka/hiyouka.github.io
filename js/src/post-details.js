@@ -37,9 +37,9 @@ $(document).ready(function() {
 
   $(".post-body img").addClass("cover");
 
-  $(".cover").on('click', function(){
+  $(".post-body img").on('click', function(){
         var this_ = $(this);
-	var images = this_.parents('.post-body').find('.cover');
+	var images = this_.parents('.post-body img');
 	console.log(images);
 	var imagesArr = new Array();
 	$.each(images, function (i, image) {
