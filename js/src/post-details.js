@@ -50,6 +50,7 @@ $(document).ready(function() {
 			this_index = i;
 		}
 	});
+	console.log(this_index);
 	$.pictureViewer({
 		images: imagesArr, //需要查看的图片，数据类型为数组
 		initImageIndex: this_index + 1, //初始查看第几张图片，默认1
