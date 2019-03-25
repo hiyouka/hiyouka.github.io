@@ -45,6 +45,7 @@ $(document).ready(function() {
 	$.each(images, function (i, image) {
 		imagesArr.push($(image).children('img').attr('src'));
 	});
+	console.log(imgesArr);
 	$.pictureViewer({
 		images: imagesArr, //需要查看的图片，数据类型为数组
 		initImageIndex: this_.index() + 1, //初始查看第几张图片，默认1
