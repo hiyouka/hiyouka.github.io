@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="referrer" content="no-referrer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="https://fonts.cat.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|13:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。 springboot自动配置基本原理&amp;emsp;&amp;emsp;SpringBoot首先在启动的时候会读取项目下的”MET">
+<meta name="keywords" content="transaction,spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring容器创建源码解析">
+<meta property="og:url" content="https://hiyouka.top/spring/spring-transaction/index.html">
+<meta property="og:site_name" content="Hiyouka">
+<meta property="og:description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。 springboot自动配置基本原理&amp;emsp;&amp;emsp;SpringBoot首先在启动的时候会读取项目下的”MET">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g6cw82w5bkj31hc0u0k3o.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1csxz0lraj30xf0dy76r.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g5s2kp91isj30wh0kvab7.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g5s2uc5ze2j312z0n9gn8.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g67di69b3vj30xn0ivjsd.jpg">
+<meta property="og:updated_time" content="2019-08-27T08:11:35.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring容器创建源码解析">
+<meta name="twitter:description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。 springboot自动配置基本原理&amp;emsp;&amp;emsp;SpringBoot首先在启动的时候会读取项目下的”MET">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g6cw82w5bkj31hc0u0k3o.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hiyouka" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://hiyouka.top/spring/spring-transaction/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring容器创建源码解析 | Hiyouka</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hiyouka</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-spring" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://hiyouka.top/spring/spring-transaction/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hiyouka">
+      <meta itemprop="description" content="hiyouka's blog">
+      <meta itemprop="image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wh783jvj30b40b4wer.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hiyouka">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring容器创建源码解析
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+             
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+
+             <span itemprop="dateCreated" datetime="2019-08-08T15:17:00+08:00" content="2019-08-08">
+		2019-08-08
+              </span>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/spring实现/" itemprop="url" rel="index"><span itemprop="name">spring实现</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+	    
+            <span id="/spring/spring-transaction/" class="leancloud_visitors" data-flag-title="Spring容器创建源码解析">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+             
+
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://ws1.sinaimg.cn/large/0071eGtVly1g6cw82w5bkj31hc0u0k3o.jpg" alt="img"></p>
+<h3 id="SpringBoot事务管理"><a href="#SpringBoot事务管理" class="headerlink" title="SpringBoot事务管理"></a>SpringBoot事务管理</h3><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>&emsp;&emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。</p>
+<h4 id="springboot自动配置基本原理"><a href="#springboot自动配置基本原理" class="headerlink" title="springboot自动配置基本原理"></a>springboot自动配置基本原理</h4><p>&emsp;&emsp;SpringBoot首先在启动的时候会读取项目下的”META-INF/spring.factories”路径的自动配置类,过滤器,监听器,ApplicationContextInitializer等。mybatis的自动装配就引入了MybatisAutoConfiguration类。<br>&emsp;&emsp;分析mybatis的自动装配前需要来分析下@EnableAutoConfiguration注解,SpringBoot的启动注解@SpringBootApplication就自带该注解,该注解引入了两个类分别是AutoConfigurationImportSelector,AutoConfigurationPackages.Registrar。</p>
+<ol>
+<li>AutoConfigurationImportSelector: 该类实现了DeferredImportSelector接口(继承ImportSelector接口),所以在spring进行容器刷新的时候会调用该类的selectImports方法将一些组件注册进容器当中。<br>这个类的selectImports方法：<ol>
+<li>从项目中读取”META-INF/spring-autoconfigure-metadata.properties”文件的内容(自动装配引入的类)。</li>
+<li>从缓存中获取EnableAutoConfiguration类的类名(SpringBoot启动时读取的自动配置类);</li>
+<li>移除配置的忽略类(@SpringBootApplication/@EnableAutoConfiguration的exclude属性配置)</li>
+<li>使用过滤器筛选自动配置类。SpringBoot默认注册了OnClassCondition过滤器,在spring-autoconfigure-metadata.properties的配置文件中需要配置ConditionalOnClass对应的value就是OnClassCondition类去判断的类)该过滤器筛选掉ClassLoader中缺失所需类的自动装配类。</li>
+</ol>
+</li>
+<li>AutoConfigurationPackages.Registrar:将AutoConfigurationPackages类注册入容器,目前还不清楚该类的作用。官方描述：Class for storing auto-configuration packages for reference later (e.g. by JPA entity scanner).<br>SpringBoot读取自动装配类流程图如下：<br><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g1csxz0lraj30xf0dy76r.jpg" alt="img"></li>
+</ol>
+<h3 id="事务相关的自动配置-JDBC"><a href="#事务相关的自动配置-JDBC" class="headerlink" title="事务相关的自动配置(JDBC)"></a>事务相关的自动配置(JDBC)</h3><p>&emsp;&emsp;事务相关的自动配置需要关注的有三个类，第一个是<code>@EnableTransactionManagement</code>springboot用于开启事务的注解，其他两个类是通过spring.factories读取的配置类分别是<code>TransactionAutoConfiguration</code>、<code>DataSourceTransactionManagerAutoConfiguration</code>这些类用于向spring容器中注入一些事务相关的关键类。(这里分析的是JDBC方向的，JTA原理类似)</p>
+<h4 id="DataSourceTransactionManagerAutoConfiguration"><a href="#DataSourceTransactionManagerAutoConfiguration" class="headerlink" title="DataSourceTransactionManagerAutoConfiguration"></a>DataSourceTransactionManagerAutoConfiguration</h4><p><img src="https://ws1.sinaimg.cn/large/0071eGtVly1g5s2kp91isj30wh0kvab7.jpg" alt="img"></p>
+<p>&emsp;&emsp;DataSourceTransactionManagerAutoConfiguration该类主要向容器注入PlatformTransactionManager类,这边注入的是DataSourceTransactionManager(注意的是这个类是自动注入最低优先级的，应该是考虑到让DataSource等先注册)</p>
+<p><img src="https://ws1.sinaimg.cn/large/0071eGtVly1g5s2uc5ze2j312z0n9gn8.jpg" alt="img"></p>
+<h4 id="TransactionAutoConfiguration"><a href="#TransactionAutoConfiguration" class="headerlink" title="TransactionAutoConfiguration"></a>TransactionAutoConfiguration</h4><p>&emsp;&emsp;TransactionAutoConfiguration该类主要向容器注入TransactionTemplate和支持spring的事务管理只要容器中有PlatformTransactionManager类就会自动开启事务。所以很多教程springboot开启事务管理需要添加<code>@EnableTransactionManagement</code>注解,其实完全是多余的!只要你在容器中注入有spring的事务管理器就ok了。(springboot的jdbc-starter和jta-starter都帮我们注入了事务管理器)</p>
+<h4 id="EnableTransactionManagement"><a href="#EnableTransactionManagement" class="headerlink" title="EnableTransactionManagement"></a>EnableTransactionManagement</h4><p>&emsp;&emsp;该类就使用@Import向容器注入了TransactionManagementConfigurationSelector类,该类实现了ImportSelector<br>接口,向容器注入了AutoProxyRegistrar和ProxyTransactionManagementConfiguration类(默认的Proxy)。重点要看的是ProxyTransactionManagementConfiguration类。</p>
+<h5 id="ProxyTransactionManagementConfiguration"><a href="#ProxyTransactionManagementConfiguration" class="headerlink" title="ProxyTransactionManagementConfiguration"></a>ProxyTransactionManagementConfiguration</h5><p>&emsp;&emsp;ProxyTransactionManagementConfiguration实现了AbstractTransactionManagementConfiguration类。该类有个<code>setConfigurers</code>方法,该方法会将TransactionManagementConfigurer的实现类返回的PlatformTransactionManager返回赋值给TransactionInterceptor用于多事务管理器的默认管理。<br>&emsp;&emsp;ProxyTransactionManagementConfiguration像spring容器添加了三个了：</p>
+<ol>
+<li>TransactionalEventListenerFactory,事务的监听器,这个不管。</li>
+<li>AnnotationTransactionAttributeSource,该类用于解析类或方法上的事务注解。</li>
+<li>TransactionInterceptor,该类是事务起作用的核心类,当执行事务切面的时候就是执行该类的invoke方法</li>
+<li>BeanFactoryTransactionAttributeSourceAdvisor,该类在aop生成代理类的时候会作为管理类被加入到aop的拦截器链用于触发回调,执行事务操作。该类的TransactionAttributeSourcePointcut属性在创建代理对象的时候调用match方法扫描该类及其所有方法,来确定该类是否需要被该拦截器处理。（aop的执行可以看我另外一篇博客）。</li>
+</ol>
+<h4 id="事务原理分析"><a href="#事务原理分析" class="headerlink" title="事务原理分析"></a>事务原理分析</h4><p>&emsp;&emsp;主要看TransactionInterceptor的invoke方法，前面也说到当执行到代理对象的方法时会获取该方法的所有拦截器来进行处理。事务添加的就是TransactionInterceptor拦截器。<br>&emsp;&emsp;invokeWithinTransaction方法：<br>下图可以很明显的看出四步</p>
+<ol>
+<li>开启事务: createTransactionIfNecessary</li>
+<li>执行方法：processedWithInvocation</li>
+<li>如果出错回滚：completeTransactionAfterThrowing</li>
+<li>提交事务：commitTransactionAfterReturning</li>
+</ol>
+<h5 id="createTransactionIfNecessary"><a href="#createTransactionIfNecessary" class="headerlink" title="createTransactionIfNecessary"></a>createTransactionIfNecessary</h5><p>&emsp;&emsp; 关键PlatformTransactionManager.getTransaction();本质操作就是获取数据库连接,jdbc环境使用的就是DataSourceTransactionManager。简单讲一下就是根据事务的传播机制获取连接，然后根据readOnly、隔离级别等给连接设置属性，还有对事务状态等控制。</p>
+<h5 id="processedWithInvocation"><a href="#processedWithInvocation" class="headerlink" title="processedWithInvocation"></a>processedWithInvocation</h5><p>&emsp;&emsp; 执行该类的方法，通过java8的FunctionalInterface将方法传入调用。   </p>
+<h5 id="completeTransactionAfterThrowing"><a href="#completeTransactionAfterThrowing" class="headerlink" title="completeTransactionAfterThrowing"></a>completeTransactionAfterThrowing</h5><p>&emsp;&emsp; DataSourceTransactionManager的doRollback，最终调用的就是connection.rollback()(如果异常是Error||RuntimeException)。其他还对事务的状态进行校验，获取savepoint，判断是否为嵌套事务等。  </p>
+<h5 id="commitTransactionAfterReturning"><a href="#commitTransactionAfterReturning" class="headerlink" title="commitTransactionAfterReturning"></a>commitTransactionAfterReturning</h5><p>&emsp;&emsp; DataSourceTransactionManager的doCommit,最终调用的就是connection.commit(),如果是嵌套继承的事务则不会提交。</p>
+<p><img src="https://ws1.sinaimg.cn/large/0071eGtVly1g67di69b3vj30xn0ivjsd.jpg" alt="img"></p>
+<h4 id="附录："><a href="#附录：" class="headerlink" title="附录："></a>附录：</h4><h5 id="事务并发引发问题"><a href="#事务并发引发问题" class="headerlink" title="事务并发引发问题"></a>事务并发引发问题</h5><blockquote>
+<p><em>脏读</em></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">    事务<span class="number">1</span> update data <span class="number">1</span> &gt; <span class="number">2</span></span><br><span class="line">    事务<span class="number">2</span> read data <span class="number">2</span></span><br><span class="line">    事务<span class="number">1</span> rollback data <span class="number">2</span> &gt; <span class="number">1</span></span><br><span class="line">    事务<span class="number">1</span> commit</span><br><span class="line">    事务<span class="number">1</span> <span class="keyword">return</span> data <span class="number">2</span></span><br><span class="line">```    </span><br><span class="line">    </span><br><span class="line">&gt; *丢失修改*  </span><br><span class="line">    </span><br><span class="line">```php    </span><br><span class="line">    事务<span class="number">1</span> read data <span class="number">1</span></span><br><span class="line">    事务<span class="number">2</span> read data <span class="number">1</span></span><br><span class="line">    事务<span class="number">1</span> update data <span class="number">1</span> + <span class="number">1</span> &gt; <span class="number">2</span></span><br><span class="line">    事务<span class="number">2</span> update data <span class="number">1</span> + <span class="number">1</span> &gt; <span class="number">2</span></span><br><span class="line">    事务<span class="number">1</span> commit</span><br><span class="line">    事务<span class="number">2</span> commit</span><br><span class="line">```    </span><br><span class="line">    </span><br><span class="line">&gt; *不可重复读* </span><br><span class="line">    </span><br><span class="line">```php    </span><br><span class="line">    事务<span class="number">1</span> read data <span class="number">1</span></span><br><span class="line">    事务<span class="number">2</span> updata data <span class="number">1</span> &gt; <span class="number">2</span></span><br><span class="line">    事务<span class="number">2</span> commit</span><br><span class="line">    事务<span class="number">1</span> read data <span class="number">2</span></span><br><span class="line">```    </span><br><span class="line">    </span><br><span class="line">&gt; *幻读*  </span><br><span class="line"> </span><br><span class="line"> ```php</span><br><span class="line">    事务<span class="number">1</span> read data num <span class="number">2</span></span><br><span class="line">    事务<span class="number">2</span> insert delete num <span class="number">2</span> &gt; <span class="number">1</span></span><br><span class="line">    事务<span class="number">2</span> commit</span><br><span class="line">    事务<span class="number">1</span> commit</span><br><span class="line">    事务<span class="number">1</span> <span class="keyword">return</span> data num <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h5 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h5><blockquote>
+<p><em>read uncommitted</em>  </p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">一个事务可以读取另一个事务未提交事务的数据。</span><br><span class="line">读未提交会引起脏读，不可重复读、幻读、丢失修改</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em>read committed</em> （orcale默认）</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">一个事务可以读取到另一个事务提交的数据。</span><br><span class="line">读已提交解决了脏读，但还是会引起不可重复读、幻读、丢失修改。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em>repeatable read</em> （mysql默认）</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">可重复读。一个事务对同一份数据读取到的相同，不在乎其他事务对数据的修改。</span><br><span class="line">解决不可重复读。（实现机制是在事务A读取之后将这些数据添加行级锁，其他事务无法修改：待验证）</span><br><span class="line">会产生幻读，丢失修改。</span><br><span class="line">丢失修改可通过数据库互斥锁（悲观锁）来解决，</span><br><span class="line">或者在字段中加入版本号（乐观锁），也可以代码中自行加锁。如果这个级别自动在查询后添加行级锁，那么其他修改无法执行，就能解决丢失修改问题。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><em>serializable</em>  </p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">严格的数据隔离，要求事务序列化执行，事务只能一个接一个执行。</span><br><span class="line">严重影响并发能力。</span><br><span class="line">解决所有并发事务引起问题。</span><br></pre></td></tr></table></figure>
+<h5 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h5><h6 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h6><p><code>TransactionDefinition</code>接口中定义了五个表示隔离级别的常量：</p>
+<ol>
+<li><strong>TransactionDefinition.ISOLATION_DEFAULT:</strong>    使用后端数据库默认的隔离级别，Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别.</li>
+<li><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED:</strong> 最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读</li>
+<li><strong>TransactionDefinition.ISOLATION_READ_COMMITTED:</strong> 允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生<br><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ:</strong> 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。</li>
+<li><strong>TransactionDefinition.ISOLATION_SERIALIZABLE:</strong>     最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。</li>
+</ol>
+<h6 id="事务传播机制"><a href="#事务传播机制" class="headerlink" title="事务传播机制"></a>事务传播机制</h6><p><code>TransactionDefinition</code>接口中定义了五个表示隔离级别的常量：</p>
+<blockquote>
+<p>支持当前事务的情况:</p>
+<ol>
+<li><strong>TransactionDefinition.PROPAGATION_REQUIRED：</strong><br>如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。</li>
+<li><strong>TransactionDefinition.PROPAGATION_SUPPORTS:</strong><br>如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。</li>
+<li><strong>TransactionDefinition.PROPAGATION_MANDATORY：</strong><br>如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。<br>不支持当前事务的情况：</li>
+<li><strong>TransactionDefinition.PROPAGATION_REQUIRES_NEW：</strong><br>创建一个新的事务，如果当前存在事务，则把当前事务挂起。</li>
+<li><strong>TransactionDefinition.PROPAGATION_NOT_SUPPORTED:</strong><br>以非事务方式运行，如果当前存在事务，则把当前事务挂起。</li>
+<li><strong>TransactionDefinition.PROPAGATION_NEVER：</strong><br>以非事务方式运行，如果当前存在事务，则抛出异常。<br>其他情况：</li>
+<li><strong>TransactionDefinition.PROPAGATION_NESTED：</strong><br>如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。</li>
+</ol>
+</blockquote>
+<p>&emsp;&emsp;这里需要指出的是，前面的六种事务传播行为是 Spring 从 EJB 中引入的，他们共享相同的概念。而 PROPAGATION_NESTED 是 Spring 所特有的。以 PROPAGATION_NESTED 启动的事务内嵌于外部事务中（如果存在外部事务的话），此时，内嵌事务并不是一个独立的事务，它依赖于外部事务的存在，只有通过外部的事务提交，才能引起内部事务的提交，嵌套的子事务不能单独提交。如果熟悉 JDBC 中的保存点（SavePoint）的概念，那嵌套事务就很容易理解了，其实嵌套的子事务就是保存点的一个应用，一个事务中可以包括多个保存点，每一个嵌套子事务。另外，外部事务的回滚也会导致嵌套子事务的回滚。</p>
+<h6 id="事务超时属性"><a href="#事务超时属性" class="headerlink" title="事务超时属性"></a>事务超时属性</h6><p>&emsp;&emsp;所谓事务超时，就是指一个事务所允许执行的最长时间，如果超过该时间限制但事务还没有完成，则自动回滚事务。在 TransactionDefinition 中以 int 的值来表示超时时间，其单位是秒。</p>
+<h6 id="事务只读属性"><a href="#事务只读属性" class="headerlink" title="事务只读属性"></a>事务只读属性</h6><p>&emsp;&emsp;事务的只读属性是指，对事务性资源进行只读操作或者是读写操作。所谓事务性资源就是指那些被事务管理的资源，比如数据源、 JMS 资源，以及自定义的事务性资源等等。如果确定只对事务性资源进行只读操作，那么我们可以将事务标志为只读的，以提高事务处理的性能。在 TransactionDefinition 中以 boolean 类型来表示该事务是否只读。</p>
+<h6 id="回滚规则"><a href="#回滚规则" class="headerlink" title="回滚规则"></a>回滚规则</h6><p>&emsp;&emsp;这些规则定义了哪些异常会导致事务回滚而哪些不会。默认情况下，事务只有遇到运行期异常时才会回滚，而在遇到检查型异常时不会回滚（这一行为与EJB的回滚行为是一致的）。<br>但是你可以声明事务在遇到特定的检查型异常时像遇到运行期异常那样回滚。同样，你还可以声明事务遇到特定的异常不回滚，即使这些异常是运行期异常。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>&emsp;&emsp;Spring通过良好的api将事务管理和数据源封装了起来,让我们可以很轻松的使用不同环境中的事务,但我觉得Spring事务管理这块扩展性还是略微有些差的,例如我原先想将事务支持多线程同一事务,原以为只要将每个线程的保存的连接统一即可,但随后发现必须要重写拦截器才能实现,Spring拦截器不对外修改事务状态以及一些处理的覆盖。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/transaction/" rel="tag"><i class="fa fa-tag"></i>transaction</a>
+          
+            <a href="/tags/spring/" rel="tag"><i class="fa fa-tag"></i>spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/algorithmic/algorithm-transactional/" rel="next" title="一致性算法">
+                <i class="fa fa-chevron-left"></i> 一致性算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://ws1.sinaimg.cn/large/007BVBG7gy1g06wh783jvj30b40b4wer.jpg" alt="hiyouka">
+            
+              <p class="site-author-name" itemprop="name">hiyouka</p>
+              <p class="site-description motion-element" itemprop="description">hiyouka's blog</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/hiyouka" title="GitHub &rarr; https://github.com/hiyouka" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://juejin.im/user/5ce247ee51882525c67bd8a2" title="掘金 &rarr; https://juejin.im/user/5ce247ee51882525c67bd8a2" rel="noopener" target="_blank"><i class="fa fa-fw fa-bookmark"></i>掘金</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://fangjian0423.github.io/" title="http://fangjian0423.github.io/" rel="noopener" target="_blank">Format's Notes</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.hollischuang.com/" title="http://www.hollischuang.com/" rel="noopener" target="_blank">HollisChuang’s Blog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot事务管理"><span class="nav-number">1.</span> <span class="nav-text">SpringBoot事务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#springboot自动配置基本原理"><span class="nav-number">1.2.</span> <span class="nav-text">springboot自动配置基本原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务相关的自动配置-JDBC"><span class="nav-number">2.</span> <span class="nav-text">事务相关的自动配置(JDBC)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DataSourceTransactionManagerAutoConfiguration"><span class="nav-number">2.1.</span> <span class="nav-text">DataSourceTransactionManagerAutoConfiguration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TransactionAutoConfiguration"><span class="nav-number">2.2.</span> <span class="nav-text">TransactionAutoConfiguration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EnableTransactionManagement"><span class="nav-number">2.3.</span> <span class="nav-text">EnableTransactionManagement</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ProxyTransactionManagementConfiguration"><span class="nav-number">2.3.1.</span> <span class="nav-text">ProxyTransactionManagementConfiguration</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务原理分析"><span class="nav-number">2.4.</span> <span class="nav-text">事务原理分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#createTransactionIfNecessary"><span class="nav-number">2.4.1.</span> <span class="nav-text">createTransactionIfNecessary</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#processedWithInvocation"><span class="nav-number">2.4.2.</span> <span class="nav-text">processedWithInvocation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#completeTransactionAfterThrowing"><span class="nav-number">2.4.3.</span> <span class="nav-text">completeTransactionAfterThrowing</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#commitTransactionAfterReturning"><span class="nav-number">2.4.4.</span> <span class="nav-text">commitTransactionAfterReturning</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#附录："><span class="nav-number">2.5.</span> <span class="nav-text">附录：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#事务并发引发问题"><span class="nav-number">2.5.1.</span> <span class="nav-text">事务并发引发问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">2.5.2.</span> <span class="nav-text">事务隔离级别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#spring事务管理"><span class="nav-number">2.5.3.</span> <span class="nav-text">spring事务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#隔离级别"><span class="nav-number">2.5.3.1.</span> <span class="nav-text">隔离级别</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#事务传播机制"><span class="nav-number">2.5.3.2.</span> <span class="nav-text">事务传播机制</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#事务超时属性"><span class="nav-number">2.5.3.3.</span> <span class="nav-text">事务超时属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#事务只读属性"><span class="nav-number">2.5.3.4.</span> <span class="nav-text">事务只读属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#回滚规则"><span class="nav-number">2.5.3.5.</span> <span class="nav-text">回滚规则</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">2.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hiyouka</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://hiyouka.top/spring/spring-transaction/";
+    this.page.identifier = "spring/spring-transaction/";
+    this.page.title = 'Spring容器创建源码解析';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://dqhiyouka.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log(`Failed to save Visitor num, with error message: ${responseJSON.error}`);
+              })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! More info at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log(`LeanCloud Counter Error: ${responseJSON.code} ${responseJSON.error}`);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + '572nl12J873fFp9GwUUG75z8-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': '572nl12J873fFp9GwUUG75z8-gzGzoHsz',
+                'X-LC-Key': 't6h7Q6YlkCEYJODG57ls30Ig',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/pictureViewer.js"></script>

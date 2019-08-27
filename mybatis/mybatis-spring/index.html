@@ -144,7 +144,7 @@
   <meta name="description" content="前言&amp;emsp;&amp;emsp;之前阅读了spring的ioc容器初始化源码感觉阅读源码还是一件很有意义的事情,除了能了解它们底层的实现方式,还能学习它们使用的巧妙设计模式,于是想着再阅读一下常用框架mybatis的原理。这次为了更清晰的记录框架结构采用了画图的方式,也方便了以后复习回忆。(项目demo地址)">
 <meta name="keywords" content="mybatis,SpringBoot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mybatis源码分析(结合SpringBoot自动装配)">
+<meta property="og:title" content="Mybatis源码分析(结合SpringBoot自动配置)">
 <meta property="og:url" content="https://hiyouka.top/mybatis/mybatis-spring/index.html">
 <meta property="og:site_name" content="Hiyouka">
 <meta property="og:description" content="前言&amp;emsp;&amp;emsp;之前阅读了spring的ioc容器初始化源码感觉阅读源码还是一件很有意义的事情,除了能了解它们底层的实现方式,还能学习它们使用的巧妙设计模式,于是想着再阅读一下常用框架mybatis的原理。这次为了更清晰的记录框架结构采用了画图的方式,也方便了以后复习回忆。(项目demo地址)">
@@ -155,9 +155,9 @@
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1ae59ihc8j30pi05jq32.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1bplmlsgkj30uy0kv770.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1csxz0lraj30xf0dy76r.jpg">
-<meta property="og:updated_time" content="2019-07-17T06:38:27.076Z">
+<meta property="og:updated_time" content="2019-08-27T08:11:35.669Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mybatis源码分析(结合SpringBoot自动装配)">
+<meta name="twitter:title" content="Mybatis源码分析(结合SpringBoot自动配置)">
 <meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;之前阅读了spring的ioc容器初始化源码感觉阅读源码还是一件很有意义的事情,除了能了解它们底层的实现方式,还能学习它们使用的巧妙设计模式,于是想着再阅读一下常用框架mybatis的原理。这次为了更清晰的记录框架结构采用了画图的方式,也方便了以后复习回忆。(项目demo地址)">
 <meta name="twitter:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g19bzb8qg4j309q02gq2s.jpg">
 
@@ -178,7 +178,7 @@
   };
 </script>
 
-  <title>Mybatis源码分析(结合SpringBoot自动装配) | Hiyouka</title>
+  <title>Mybatis源码分析(结合SpringBoot自动配置) | Hiyouka</title>
   
 
 
@@ -415,7 +415,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mybatis源码分析(结合SpringBoot自动装配)
+          <h1 class="post-title" itemprop="name headline">Mybatis源码分析(结合SpringBoot自动配置)
 
               
             
@@ -476,7 +476,7 @@
           
           
 	    
-            <span id="/mybatis/mybatis-spring/" class="leancloud_visitors" data-flag-title="Mybatis源码分析(结合SpringBoot自动装配)">
+            <span id="/mybatis/mybatis-spring/" class="leancloud_visitors" data-flag-title="Mybatis源码分析(结合SpringBoot自动配置)">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -526,7 +526,7 @@
 </li>
 <li>MapperAnnotationBuilder的parseStatement方法将基于注解的sql信息封装到成MappedStatement添加到Configuration。<br>mybatis初始化动态sql图解：<br><img src="https://ws1.sinaimg.cn/large/007BVBG7gy1g1bplmlsgkj30uy0kv770.jpg" alt="img"></li>
 </ol>
-<h3 id="mybatis的自动装配-SpringBoot"><a href="#mybatis的自动装配-SpringBoot" class="headerlink" title="mybatis的自动装配(SpringBoot)"></a>mybatis的自动装配(SpringBoot)</h3><p>&emsp;&emsp;SpringBoot首先在启动的时候会读取项目下的”META-INF/spring.factories”路径的自动配置类,过滤器,监听器,ApplicationContextInitializer等。mybatis的自动装配就引入了MybatisAutoConfiguration类。<br>&emsp;&emsp;分析mybatis的自动装配前需要来接下@EnableAutoConfiguration注解,SpringBoot的启动注解@SpringBootApplication就自带该注解,该注解引入了两个类分别是AutoConfigurationImportSelector,AutoConfigurationPackages.Registrar。</p>
+<h3 id="mybatis的自动配置-SpringBoot"><a href="#mybatis的自动配置-SpringBoot" class="headerlink" title="mybatis的自动配置(SpringBoot)"></a>mybatis的自动配置(SpringBoot)</h3><p>&emsp;&emsp;SpringBoot首先在启动的时候会读取项目下的”META-INF/spring.factories”路径的自动配置类,过滤器,监听器,ApplicationContextInitializer等。mybatis的自动装配就引入了MybatisAutoConfiguration类。<br>&emsp;&emsp;分析mybatis的自动装配前需要来分析下@EnableAutoConfiguration注解,SpringBoot的启动注解@SpringBootApplication就自带该注解,该注解引入了两个类分别是AutoConfigurationImportSelector,AutoConfigurationPackages.Registrar。</p>
 <ol>
 <li>AutoConfigurationImportSelector: 该类实现了DeferredImportSelector接口(继承ImportSelector接口),所以在spring进行容器刷新的时候会调用该类的selectImports方法将一些组件注册进容器当中。<br>这个类的selectImports方法：<ol>
 <li>从项目中读取”META-INF/spring-autoconfigure-metadata.properties”文件的内容(自动装配引入的类)。</li>
@@ -539,7 +539,6 @@
 </ol>
 <p>&emsp;&emsp;之后在容器刷新创建类的时候就会自动配置sqlSessionFactory,sqlSessionTemplate类。mybatis的自动装配类中还有一个类MapperScannerRegistrarNotFoundConfiguration,当检测到容器中没有MapperFactory时就会扫描项目中Mapper的类将其作为MapperFactory注册进容器。也就是表示可以不添加@MapperScan注解，只在接口类上加上@Mapper注解就可以注入容器当中了。</p>
 <h3 id="mapper接口方法的执行："><a href="#mapper接口方法的执行：" class="headerlink" title="mapper接口方法的执行："></a>mapper接口方法的执行：</h3><p>&emsp;&emsp;第二部分中提到创建在容器当中的Mapper接口类是一个MapperProxy的代理类。在我们调用Mapper接口的方法时就会执行MapperProxy的invoke方法。</p>
-<p>AutoConfigurationGroup  </p>
 
       
     </div>
@@ -585,6 +584,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/algorithmic/algorithm-transactional/" rel="prev" title="一致性算法">
+                一致性算法 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -663,7 +666,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -682,7 +685,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -703,7 +708,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -790,7 +799,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册mapper接口类"><span class="nav-number">2.</span> <span class="nav-text">注册mapper接口类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper接口类的创建"><span class="nav-number">3.</span> <span class="nav-text">mapper接口类的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mybatis的自动装配-SpringBoot"><span class="nav-number">4.</span> <span class="nav-text">mybatis的自动装配(SpringBoot)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper接口方法的执行："><span class="nav-number">5.</span> <span class="nav-text">mapper接口方法的执行：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注册mapper接口类"><span class="nav-number">2.</span> <span class="nav-text">注册mapper接口类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper接口类的创建"><span class="nav-number">3.</span> <span class="nav-text">mapper接口类的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mybatis的自动配置-SpringBoot"><span class="nav-number">4.</span> <span class="nav-text">mybatis的自动配置(SpringBoot)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapper接口方法的执行："><span class="nav-number">5.</span> <span class="nav-text">mapper接口方法的执行：</span></a></li></ol></div>
             
 
           </div>
@@ -972,7 +981,7 @@
   var disqus_config = function() {
     this.page.url = "https://hiyouka.top/mybatis/mybatis-spring/";
     this.page.identifier = "mybatis/mybatis-spring/";
-    this.page.title = 'Mybatis源码分析(结合SpringBoot自动装配)';
+    this.page.title = 'Mybatis源码分析(结合SpringBoot自动配置)';
     };
   function loadComments() {
     var d = document, s = d.createElement('script');

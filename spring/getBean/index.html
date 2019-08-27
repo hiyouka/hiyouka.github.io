@@ -150,7 +150,7 @@
 <meta property="og:description" content="前言&amp;emsp;&amp;emsp;在分析spring容器的创建过程中分析了bean的创建过程。由于创建过程步骤还是比较多的于是就新开一篇博客来详细分析下beanFactory的getBean方法做了哪些操作。分析的是通过beanType获取bean，因为根据type获取其实最终调用的也是根据beanName获取bean。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g0cutps3irj31kw0oy4qp.jpg">
-<meta property="og:updated_time" content="2019-07-17T06:38:27.085Z">
+<meta property="og:updated_time" content="2019-08-27T08:11:35.706Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring对象创建初始化分析">
 <meta name="twitter:description" content="前言&amp;emsp;&amp;emsp;在分析spring容器的创建过程中分析了bean的创建过程。由于创建过程步骤还是比较多的于是就新开一篇博客来详细分析下beanFactory的getBean方法做了哪些操作。分析的是通过beanType获取bean，因为根据type获取其实最终调用的也是根据beanName获取bean。">
@@ -546,7 +546,7 @@
 <li>applyMergedBeanDefinitionPostProcessors调用。该方法找出MergedBeanDefinitionPostProcessor调用postProcessMergedBeanDefinition。(CommonAnnotationBeanPostProcessor,AutowiredAnnotationBeanPostProcessor,RequiredAnnotationBeanPostProcessor,ApplicationListenerDetector)AutowiredAnnotationBeanPostProcessor处理器为bean的beanDefinition添加了@Autowired和@Value注解属性，给该处理器的injectionMetadataCache属性添加需要注入信息对象的InjectionMetadata。 ApplicationListenerDetector往它的singletonNames属性中添加了该beanDefinition。</li>
 <li>调用addSingletonFactory往工厂的singletonFactories属性中添加了该对象的早期对象来解决循环引用问题。</li>
 <li>调用populateBean方法:<ol>
-<li>查找所有的InstantiationAwareBeanPostProcessor。(ConfigurationClassPostProcessor)，如果有处理器postProcessAfterInstantiation方法返回false则直接return<code>populateBean</code>方法。不对bean进行初始化修改。</li>
+<li>查找所有的InstantiationAwareBeanPostProcessor。    (ConfigurationClassPostProcessor)，如果有处理器postProcessAfterInstantiation方法返回false则直接return<code>populateBean</code>方法。不对bean进行初始化修改。</li>
 <li>调用InstantiationAwareBeanPostProcessor的postProcessPropertyValues。AutowiredAnnotationBeanPostProcessor执行doResolveDependency来给当前处理的bean注入<code>@Autowired</code>和<code>@Value</code>的属性，取出之前缓存的该对象InjectionMetadata，调用inject来设置<code>@Autowired</code>依赖属性(期间调用doResolveDependency来获取真正需要注入的属性)。</li>
 <li>doResolveDependency操作详解：<ol>
 <li>先通过findAutowireCandidates方法获取所有的需要注入类型class文件(如果工厂中该对象已经被创建则返回对象)如果查找到的Candidates大于1则使用 determineAutowireCandidate 来进行过滤beanName。</li>
@@ -556,7 +556,11 @@
 <li>最后根据beanName获取bean对象(相互依赖的情况下会获取早期对象设置)。</li>
 </ol>
 </li>
-<li>applyPropertyValues()</li>
+<li>applyPropertyValues:<ol>
+<li>通过BeanDefinitionValueResolver.resolveValueIfNecessary()获取/创建propertyValues中的对象。</li>
+<li></li>
+</ol>
+</li>
 </ol>
 </li>
 <li>调用initializeBean：<ol>
@@ -695,7 +699,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -714,7 +718,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -735,7 +741,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
