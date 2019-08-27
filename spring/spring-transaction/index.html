@@ -141,23 +141,23 @@
 
 
 
-  <meta name="description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。 springboot自动配置基本原理&amp;emsp;&amp;emsp;SpringBoot首先在启动的时候会读取项目下的”MET">
+  <meta name="description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。">
 <meta name="keywords" content="spring,transaction">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot事务管理">
 <meta property="og:url" content="https://hiyouka.top/spring/spring-transaction/index.html">
 <meta property="og:site_name" content="Hiyouka">
-<meta property="og:description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。 springboot自动配置基本原理&amp;emsp;&amp;emsp;SpringBoot首先在启动的时候会读取项目下的”MET">
+<meta property="og:description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g6cw82w5bkj31hc0u0k3o.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/007BVBG7gy1g1csxz0lraj30xf0dy76r.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g5s2kp91isj30wh0kvab7.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g5s2uc5ze2j312z0n9gn8.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g67di69b3vj30xn0ivjsd.jpg">
-<meta property="og:updated_time" content="2019-08-27T08:19:04.353Z">
+<meta property="og:updated_time" content="2019-08-27T08:23:15.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot事务管理">
-<meta name="twitter:description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。 springboot自动配置基本原理&amp;emsp;&amp;emsp;SpringBoot首先在启动的时候会读取项目下的”MET">
+<meta name="twitter:description" content="SpringBoot事务管理前言&amp;emsp;&amp;emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。">
 <meta name="twitter:image" content="https://ws1.sinaimg.cn/large/0071eGtVly1g6cw82w5bkj31hc0u0k3o.jpg">
 
 
@@ -507,7 +507,7 @@
 
       
         <p><img src="https://ws1.sinaimg.cn/large/0071eGtVly1g6cw82w5bkj31hc0u0k3o.jpg" alt="img"></p>
-<h3 id="SpringBoot事务管理"><a href="#SpringBoot事务管理" class="headerlink" title="SpringBoot事务管理"></a>SpringBoot事务管理</h3><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>&emsp;&emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。</p>
+<h3 id="SpringBoot事务管理"><a href="#SpringBoot事务管理" class="headerlink" title="SpringBoot事务管理"></a>SpringBoot事务管理</h3><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>&emsp;&emsp;好久没有写博客了,最近终于能沉下心来阅读底层源码了(主要是上班时间比较闲(●’◡’●))。本文部分内容涉及spring容器没有细讲,有兴趣的同学可以去看我容器启动分析的文章(写的第一篇文章比较烂，有时间应该会重新整理下)。<br><a id="more"></a></p>
 <h4 id="springboot自动配置基本原理"><a href="#springboot自动配置基本原理" class="headerlink" title="springboot自动配置基本原理"></a>springboot自动配置基本原理</h4><p>&emsp;&emsp;SpringBoot首先在启动的时候会读取项目下的”META-INF/spring.factories”路径的自动配置类,过滤器,监听器,ApplicationContextInitializer等。mybatis的自动装配就引入了MybatisAutoConfiguration类。<br>&emsp;&emsp;分析mybatis的自动装配前需要来分析下@EnableAutoConfiguration注解,SpringBoot的启动注解@SpringBootApplication就自带该注解,该注解引入了两个类分别是AutoConfigurationImportSelector,AutoConfigurationPackages.Registrar。</p>
 <ol>
 <li>AutoConfigurationImportSelector: 该类实现了DeferredImportSelector接口(继承ImportSelector接口),所以在spring进行容器刷新的时候会调用该类的selectImports方法将一些组件注册进容器当中。<br>这个类的selectImports方法：<ol>
